@@ -93,7 +93,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     <i class="fa fa-info-circle w3-xxlarge"></i>
     <p>Overview</p>
   </a>
-  <a href="#about" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+  <a href="#goals" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
     <i class="fa fa-check-circle-o w3-xxlarge"></i>
     <p>Goals and Deliverables</p>
   </a>
@@ -111,7 +111,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 <div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
   <div class="w3-bar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small">
     <a href="#" class="w3-bar-item w3-button" style="width:25% !important">OverviewE</a>
-    <a href="#about" class="w3-bar-item w3-button" style="width:25% !important">Goals and Deliverables</a>
+    <a href="#goals" class="w3-bar-item w3-button" style="width:25% !important">Goals and Deliverables</a>
     <a href="#schedules" class="w3-bar-item w3-button" style="width:25% !important">Schedules</a>
     <a href="#resources" class="w3-bar-item w3-button" style="width:25% !important">Resoures</a>
   </div>
@@ -120,13 +120,13 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 <!-- Page Content -->
 <div class="w3-padding-large" id="main">
   <!-- Header/Home -->
-  <header class="w3-container w3-padding-32 w3-center w3-black" id="home">
+  <header class="w3-container w3-padding-32 w3-center w3-black">
     <h1 class="w3-jumbo"><span class="w3-hide-small"></span>Cel Shading</h1>
     <p>Tristan Burke, Andrew Noglows, Shivam Parikh</p>
   </header>
 
   <!-- About Section -->
-  <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="about">
+  <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="home">
     <h2 class="w3-text-light-grey">Problem Description</h2>
     <hr style="width:200px" class="w3-opacity">
     <p>The current renderer we've built in project 3-1 and 3-2 utilizes photo-realistic based rendering with no capabilites of artistic flexibility. In our project, we hope to widen these capabilities by implementing cel-shading, sometimes referred to as toon-shading. Cel shading is a stylized rendering technique that gives 3D objects a 2D or comic-like appearence. This technique is often paired with a black outline of objects to a greater artistic effect, a feature we also intend to implement. These additions will allow greater artistic influence on the rendered outlines of our pipeline.
@@ -134,7 +134,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   </div>
   
   <!-- Portfolio Section -->
-  <div class="w3-padding-64 w3-content" id="schedules">
+  <div class="w3-padding-64 w3-content" id="goals">
     <h2 class="w3-text-light-grey">Goals and Deliverales</h2>
     <hr style="width:200px" class="w3-opacity">
     <p>
@@ -154,12 +154,12 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
         </li>
     </ul>
     </p>
-  <!-- End Portfolio Section -->
   </div>
 
-  <!-- resources Section -->
-  <div class="w3-padding-64 w3-content w3-text-grey" id="resources">
-    <h2 class="w3-text-light-grey">resources Me</h2>
+
+  <!-- Schedule Section -->
+  <div class="w3-padding-64 w3-content w3-text-grey" id="Schedule">
+    <h2 class="w3-text-light-grey">Schedule</h2>
     <hr style="width:200px" class="w3-opacity">
 
     <div class="w3-section">
@@ -168,18 +168,21 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
       <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"> </i> Email: mail@mail.com</p>
     </div><br>
     <p>Lets get in touch. Send me a message:</p>
+  </div>
+  <!-- End Schedule Section -->
 
-    <form action="/action_page.php" target="_blank">
-      <p><input class="w3-input w3-padding-16" type="text" placeholder="Name" required name="Name"></p>
-      <p><input class="w3-input w3-padding-16" type="text" placeholder="Email" required name="Email"></p>
-      <p><input class="w3-input w3-padding-16" type="text" placeholder="Subject" required name="Subject"></p>
-      <p><input class="w3-input w3-padding-16" type="text" placeholder="Message" required name="Message"></p>
-      <p>
-        <button class="w3-button w3-light-grey w3-padding-large" type="submit">
-          <i class="fa fa-paper-plane"></i> SEND MESSAGE
-        </button>
-      </p>
-    </form>
+
+  <!-- resources Section -->
+  <div class="w3-padding-64 w3-content w3-text-grey" id="resources">
+    <h2 class="w3-text-light-grey">Recourses</h2>
+    <hr style="width:200px" class="w3-opacity">
+
+    <div class="w3-section">
+      <p><i class="fa fa-map-marker fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Chicago, US</p>
+      <p><i class="fa fa-phone fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Phone: +00 151515</p>
+      <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"> </i> Email: mail@mail.com</p>
+    </div><br>
+    <p>Lets get in touch. Send me a message:</p>
   <!-- End resources Section -->
   </div>
 
