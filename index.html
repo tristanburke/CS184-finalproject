@@ -56,6 +56,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     <h1 class="w3-jumbo"><span class="w3-hide-small"></span>Cel Shading</h1>
     <p>Tristan Burke, Andrew Noglows, Shivam Parikh</p>
     <img src="images/toonshader.png" />
+    <p>Our project will implement Cel-Shading, a comic-book rendering style that produces cartoon like figures. This implementation will be built upon CS184's Project 3 and will give a users greater artistic flexibility. 
   </header>
 
   <!-- About Section -->
@@ -72,15 +73,19 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     <hr style="width:200px" class="w3-opacity">
     <p>
     <ul>
-        <li><b>Basic Cel Shading:</b>
+        <li><b>Basic Cel Shading:</b> The first major deliverable of our project will be a basic version of cel-shading. This will be achieved by modifying the code of project 3-1, 3-2. We will checkpoint this goal by producing and comparing basic cel-shaded versions of common objects like the Utah Teapot and Stanford Bunny.
             <div align="center">
                 <img src="images/teapot.png" width="300px" />
                 <figcaption align="middle">Utah Teapot with Cel-Shading</figcaption>
             </div>
         </li>
-        <li><b>Customizable LUT Settings:</b></li>
-        <li><b>Stylized highlights: </b>
-                    <div align="center">
+        <li><b>Customizable LUT Settings:</b> In the context of cel-shading, LUT (look up tables) generally refer to the texture mapping chosen for a mesh. Implementing this feature as a customizable feature will allow greater artistic flexibility and control. Shown below is an image of varying settings. 
+            <div align="center">
+                <img src="images/lut.png" width="300px" />
+                <figcaption align="middle">Customizing the LUT settings of a sphere</figcaption>
+            </div></li>
+        <li><b>Stylized highlights: Alongside LUT Settings, another common parametized feature of Cel-Shading is highlights. Highlights are bright completely-white spots on objects that accent the lighting of the scene while maintaing the comic-book look. An example image is shown below.</b>
+             <div align="center">
                 <img src="images/highlights.png" width="300px" />
                 <figcaption align="middle">Highlights</figcaption>
             </div>
