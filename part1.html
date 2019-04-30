@@ -35,89 +35,44 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   <header class="w3-container w3-padding-32 w3-center w3-black">
     <h1 class="w3-jumbo"><span class="w3-hide-small"></span>Cel Shading: 1st Deliverable</h1>
     <p>Tristan Burke, Andrew Noglows, Shivam Parikh</p>
-    <img src="images/toonshader.png" />
-    <p>Our project will implement Cel-Shading, a comic-book rendering style that produces cartoon like figures. This implementation will be built upon CS184's Project 3 and will give a users greater artistic flexibility. 
+    <img src="images/progress1.png" />
+    <p><p>
   </header>
 
-  <!-- About Section -->
+  <!-- Progress Section -->
   <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="home">
-    <h2 class="w3-text-light-grey">Problem Description</h2>
+    <h2 class="w3-text-light-grey">Preliminary Results and Progress</h2>
     <hr style="width:200px" class="w3-opacity">
-    <p>The current renderer we've built in project 3-1 and 3-2 utilizes photo-realistic based rendering with no capabilites of artistic flexibility. In our project, we hope to widen these capabilities by implementing cel-shading, sometimes referred to as toon-shading. Cel shading is a stylized rendering technique that gives 3D objects a 2D or comic-like appearence. This technique is often paired with a black outline of objects to a greater artistic effect, a feature we also intend to implement. These additions will allow greater artistic influence on the rendered outlines of our pipeline.
-    </p>
+    <p>yada yada yada </p>
   </div>
+  <!-- End Progress Section -->
+
   
-  <!-- Goals Section -->
+  <!-- Updated Plan -->
   <div class="w3-padding-64 w3-content" id="goals">
-    <h2 class="w3-text-light-grey">Goals and Deliverales</h2>
+    <h2 class="w3-text-light-grey">Updated Plan</h2>
     <hr style="width:200px" class="w3-opacity">
     <p>
     <ul>
-        <li><b>Basic Cel Shading:</b> The first major deliverable of our project will be a basic version of cel-shading. This will be achieved by modifying the code of project 3-1, 3-2. We will checkpoint this goal by producing and comparing basic cel-shaded versions of common objects like the Utah Teapot and Stanford Bunny.
+        <li><b>Improved GUI</b> yada yada
             <div align="center">
                 <img src="images/teapot.png" width="300px" />
                 <figcaption align="middle">Utah Teapot with Cel-Shading</figcaption>
             </div>
-        </li>
-        <li><b>Customizable LUT Settings:</b> In the context of cel-shading, LUT (look up tables) generally refer to the texture mapping chosen for a mesh. Implementing this feature as a customizable feature will allow greater artistic flexibility and control. Shown below is an image of varying settings. 
-            <div align="center">
-                <img src="images/lut.png" width="300px" />
-                <figcaption align="middle">Customizing the LUT settings of a sphere</figcaption>
-            </div></li>
-        <li><b>Stylized highlights: Alongside LUT Settings, another common parametized feature of Cel-Shading is highlights. Highlights are bright completely-white spots on objects that accent the lighting of the scene while maintaing the comic-book look. An example image is shown below.</b>
-             <div align="center">
-                <img src="images/highlights.png" width="300px" />
-                <figcaption align="middle">Highlights</figcaption>
-            </div>
-        </li>
-        <li><b>Outlines: </b>As discussed in the problem description, cel-shading is often used in hand with object outlines, completing the "comic book" appearence. As such, we will implement 
-            <div align="center">
-                <img src="images/blackoutline.png" width="300px" />
-                <figcaption align="middle">Notice the outlines surrounding the characters and background</figcaption>
-            </div>
-        </li>
-        <li><b>Inputs: </b>We want our cel shader to be able to render beautiful, animated images, but we ourselves are not spectacular artists. We plan on obtaining meshes online in preferably .dae formats so we can directly integrate it with the renderer project we have from Project 3. However, an alternate plan to this is obtaining .3ds files and either converting them to .obj files or another format that is accepted by the program we work with in class.</li>
+        </li>>
     </ul>
     </p>
   </div>
-  <!-- End Goals Section -->
+  <!-- End Updated Plan Section -->
 
 
-  <!-- Schedule Section -->
+  <!-- Video Section -->
   <div class="w3-padding-64 w3-content w3-text-grey" id="schedule">
-    <h2 class="w3-text-light-grey">Schedule</h2>
+    <h2 class="w3-text-light-grey">Video</h2>
     <hr style="width:200px" class="w3-opacity">
-    <p>Our tentative schedule is as follows. </p>
-    <ul>
-      <li>April 9th - Submit the Proposal, Finish conducting the preliminary research to understand what our goals are.</li>
-      <li>April 14th - Have an outline of technical goals and what we deem achievable for this final project.</li>
-      <li>April 14th - Finalize the pipeline we will be using to write the algorithms, design the objects, render the images, and display our results.</li>
-      <li>April 21st - Complete the outlining methods to draw back faces with thick lines using Sobel or Canny edge detection algorithms.</li>
-      <li>April 28th - Finish the shading and texture for a comic/toon appearance using multi-texturing.</li>
-      <li>April 30th - Have at least four renderings completed to display during the graded checkpoint.</li>
-      <li>May 9th - Finish the writeup and display website, prepare for final presentations up until this point.</li>
-    </ul>
+    <p>Below you will find a video detailing some of our progress and implemented features.</p>
   </div>
-  <!-- End Schedule Section -->
-
-
-  <!-- resources Section -->
-  <div class="w3-padding-64 w3-content w3-text-grey" id="resources">
-    <h2 class="w3-text-light-grey">Resources</h2>
-    <hr style="width:200px" class="w3-opacity">
-    <p>Here are some of our resources: </p>
-    <ul>
-        <li> Project 3-2 </li>
-        <li> https://en.wikipedia.org/wiki/Cel_shading </li>
-        <li> https://www.raywenderlich.com/146-unreal-engine-4-cel-shading-tutorial </li>
-        <li> http://nehe.gamedev.net/tutorial/cel_shading/25001/ </li>
-        <li> http://www.lighthouse3d.com/tutorials/glsl-12-tutorial/toon-shading/ </li>
-        <li> https://www.cs.rpi.edu/~cutler/classes/advancedgraphics/S12/final_projects/hutchins_kim.pdf </li>
-        <li> http://rbwhitaker.wikidot.com/toon-shader </li>
-        <li> https://www.reddit.com/r/unrealengine/comments/7wgas1/creating_cel_shading_with_outlines/ </li> <li>http://users.csc.calpoly.edu/~zwood/teaching/csc471/finalproj24/nmarcy/</li>
-    </ul>
-  <!-- End resources Section -->
-  </div>
+  <!-- End Video Section -->
 
 <!-- END PAGE CONTENT -->
 </div>
