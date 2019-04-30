@@ -50,15 +50,19 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
                 <figcaption align="middle">Black and White Cel Shaded Sphere</figcaption>
             </div>
         </li>
-        <li><b>Colored and Banded Cel Shading: </b>The next step was to add additional bands to our cel-shading, as well as color. Th
-            <div align="center">
-                <img src="images/progress2.png" width="300px" />
-                <figcaption align="middle">Red Cel Shaded Sphere</figcaption>
-            </div>
-        </li>
-        <li><b>Customizing Band Number and Color</b>The next step was to add additional bands to our cel-shading, as well as color. Th
+        <li><b>Customizing Band Number and Color</b>The next step was to add color and band customization to our shader. Originally we had hard coded if-statements to check the bounds of our dot product and assign a specific color. In order to generalize this process and allow customization, we created three variables: a band num (float), a min color (vec4), and a max color (vec4). We then 
             <div align="center">
               <table style="width=100%">
+                <tr>
+                  <td align="middle">
+                    <img src="images/red1.png" width="300px" />
+                    <figcaption align="middle">Dark Red to Light Red</figcaption>
+                  </td>
+                  <td align="middle">
+                    <img src="images/red2.png" width="300px" />
+                    <figcaption align="middle">Dark Red to Pure White</figcaption>
+                  </td>
+                </tr>
                 <tr>
                   <td align="middle">
                     <img src="images/4_band.png" width="300px" />
