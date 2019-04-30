@@ -35,7 +35,6 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   <header class="w3-container w3-padding-32 w3-center w3-black">
     <h1 class="w3-jumbo"><span class="w3-hide-small"></span>Cel Shading: 1st Deliverable</h1>
     <p>Tristan Burke, Andrew Noglows, Shivam Parikh</p>
-    <img src="images/progress1.png" />
     <p><p>
   </header>
 
@@ -44,47 +43,57 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     <h2 class="w3-text-light-grey">Preliminary Results and Progress</h2>
     <hr style="width:200px" class="w3-opacity">
     <ul>
-        <li><b>Basic Cel Shading: </b>the first and most important goal we had to implement was a basic version of cel-shading. After completing project 4 and realizing the power and relative simplicity of shader files, we decided that a custom ".frag" file would be the best place to start this initial implementation. Reading through many of the resources we collected for our proposal, our first pass simply checked the dot product of the face normal and the light source. We then compared this value to to see if it was . This completed our first cel-shaded image.
+        <li><b>Basic Cel Shading: </b>The first and most important goal we had to implement was a basic version of cel-shading. After completing project 4 and realizing the power and relative simplicity of shader files, we decided that a custom ".frag" file would be the best place to start this initial implementation. Reading through many of the resources we collected for our proposal, our first pass simply checked the dot product of the face normal and the light source. We then compared this value to to see if it was . This completed our first cel-shaded image.
             <div align="center">
                 <img src="images/progress2.png" width="300px" />
                 <figcaption align="middle">Black and White Cel Shaded Sphere</figcaption>
             </div>
         </li>
-        <li><b>Customizing Band Number and Color</b>The next step was to add color and band customization to our shader. Originally we had hard coded if-statements to check the bounds of our dot product and assign a specific color. In order to generalize this process and allow customization, we created three variables: a band num (float), a min color (vec4), and a max color (vec4). We then 
+        <li><b>Customizing Band Number and Color: </b>The next step was to add color and band customization to our shader. Originally we had hard coded if-statements to check the bounds of our dot product and assign a specific color. In order to generalize this process and allow customization, we created three variables: a band num (float), a min color (vec4), and a max color (vec4). We then interlopated between the range of our dot product, and the min / max colors, dividing uniform sections based off the band number. 
             <div align="center">
               <table style="width=100%">
                 <tr>
                   <td align="middle">
-                    <img src="images/red1.png" width="300px" />
+                    <img src="images/red1.png" width="200px" />
                     <figcaption align="middle">Dark Red to Light Red</figcaption>
                   </td>
                   <td align="middle">
-                    <img src="images/red2.png" width="300px" />
+                    <img src="images/red2.png" width="200px" />
                     <figcaption align="middle">Dark Red to Pure White</figcaption>
                   </td>
                 </tr>
                 <tr>
                   <td align="middle">
-                    <img src="images/4_band.png" width="300px" />
+                    <img src="images/4_band.png" width="200px" />
                     <figcaption align="middle">4 Banded Sphere</figcaption>
                   </td>
                   <td align="middle">
-                    <img src="images/10_band.png" width="300px" />
+                    <img src="images/10_band.png" width="200px" />
                     <figcaption align="middle">10 Banded Sphere</figcaption>
                   </td>
                 </tr>
               </table>
             </div>
         </li>
-        <li><b>Specular highlights</b>The next step was to add additional bands to our cel-shading, as well as color. Th
+        <li><b>Specular highlights: </b>The next effect we implemented was stylized specular highlights. In order to implement highlights, we closely resembled the specular aspect of the Blinn-Phong Reflection model. First we computed the wo vector based off the surface normal and light position. this allowed us to calculate the wi vector. Next, we calculated the halfedge between the Wi, and the vector pointing from our surface to the camera, calling this "H". In order to maintain our discrete cel shading, we added a cutoff that would color. 
             <div align="center">
-                <img src="images/highlights.png" width="300px" />
-                <figcaption align="middle">Red Cel Shaded Sphere</figcaption>
+              <table style="width=100%">
+                <tr>
+                  <td align="middle">
+                    <img src="images/eta2.png" width="200px" />
+                    <figcaption align="middle">Eta value of 0.02</figcaption>
+                  </td>
+                  <td align="middle">
+                    <img src="images/eta1.png" width="200px" />
+                    <figcaption align="middle">Eta value of 0.1</figcaption>
+                  </td>
+                </tr>
+              </table>
             </div>
         </li>
         <li><b>Black Edges</b>The next step was to add additional bands to our cel-shading, as well as color. Th
             <div align="center">
-                <img src="images/progress2.png" width="300px" />
+                <img src="images/progress2.png" width="200px" />
                 <figcaption align="middle">Red Cel Shaded Sphere</figcaption>
             </div>
         </li>
@@ -105,12 +114,8 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     <hr style="width:200px" class="w3-opacity">
     <p>
     <ul>
-        <li><b>Improved GUI</b> yada yada
-            <div align="center">
-                <img src="images/teapot.png" width="300px" />
-                <figcaption align="middle">Utah Teapot with Cel-Shading</figcaption>
-            </div>
-        </li>
+        <li><b>Improved GUI</b> yada yada </li>
+        <li><b>Non-Uniform Band Selection</b> </li>
     </ul>
     </p>
   </div>
