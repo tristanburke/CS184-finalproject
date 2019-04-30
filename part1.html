@@ -52,7 +52,7 @@ b, strong {
                 <figcaption align="middle">Black and White Cel Shaded Sphere</figcaption>
             </div>
         </li>
-        <li><b>Customizing Band Number and Color: </b>The next step was to add color and band customization to our shader. Originally we had hard coded if-statements to check the bounds of our dot product and assign a specific color. In order to generalize this process and allow customization, we created three variables: a band num (float), a min color (vec4), and a max color (vec4). We then interlopated between the range of our dot product, and the min / max colors, dividing uniform sections based off the band number. 
+        <li><b>Customizing Band Number and Color: </b>The next step was to add color and band customization to our shader. Originally we had hard coded if-statements to check the bounds of our dot product and assign a specific color. In order to generalize this process and allow customization, we created three variables: a band num (float), a min color (vec4), and a max color (vec4). We then interlopated between the range of our dot product, and the min / max colors, dividing uniform sections based off the band number.
             <div align="center">
               <table style="width=100%">
                 <tr>
@@ -78,7 +78,7 @@ b, strong {
               </table>
             </div>
         </li>
-        <li><b>Specular highlights: </b>The next effect we implemented was stylized specular highlights. In order to implement highlights, we closely resembled the specular aspect of the Blinn-Phong Reflection model. First we computed the wo vector based off the surface normal and light position. this allowed us to calculate the wi vector. Next, we calculated the halfedge between the Wi, and the vector pointing from our surface to the camera, calling this "H". In order to maintain our discrete cel shading, we added a cutoff that would color. 
+        <li><b>Specular highlights: </b>The next effect we implemented was stylized specular highlights. In order to implement highlights, we closely resembled the specular aspect of the Blinn-Phong Reflection model. First we computed the wo vector based off the surface normal and light position. this allowed us to calculate the wi vector. Next, we calculated the halfedge between the Wi, and the vector pointing from our surface to the camera, calling this "H". In order to maintain our discrete cel shading, we added a cutoff that would color.
             <div align="center">
               <table style="width=100%">
                 <tr>
@@ -94,7 +94,7 @@ b, strong {
               </table>
             </div>
         </li>
-        <li><b>Black Edges: </b>Alongside highlights and cel-shading, one of the most important effects of our project is black outlines. Outlining our object relied on a very simply trick to check the normal of our current face against the viewing direction of our camera. We then created a variable named "edge_width" that we compared this dot product to. If the the value fell within a certain range, we colored the current face black. Furthermore, our edge width variable allows for easy customization. 
+        <li><b>Black Edges: </b>Alongside highlights and cel-shading, one of the most important effects of our project is black outlines. Outlining our object relied on a very simply trick to check the normal of our current face against the viewing direction of our camera. We then created a variable named "edge_width" that we compared this dot product to. If the the value fell within a certain range, we colored the current face black. Furthermore, our edge width variable allows for easy customization.
             <div align="center">
               <table style="width=100%">
                 <tr>
@@ -110,24 +110,33 @@ b, strong {
               </table>
             </div>
         </li>
-        <li><b>All Effects</b> Combining this effects in the right order (cel-shading, specular, edge) gives us a great inital toon-shaded sphere. 
+        <li><b>All Effects: </b> Combining this effects in the right order (cel-shading, specular, edge) gives us a great inital toon-shaded sphere.
             <div align="center">
                 <img src="images/progress1.png" width="300px" />
                 <figcaption align="middle">Toon Shaded Sphere</figcaption>
             </div>
         </li>
+
+        <li><b>GUI</b> One aspect of our project is converting our project 4 interface into an interface that focuses on cel shading. We have decided to use project 4's friendly and easy to use interface and apply it to our project. As of now, we have stripped away the facets from project 4 that are unrealated to our goals, and added in new features that will allow you to change the parameters for cel shading. Currently, the toggles do not update the settings, but we have designed our first iteration of what it will look like.
+          <div align="center">
+              <img src="images/gui.png" width="300px" />
+              <figcaption align="middle">Updated GUI</figcaption>
+          </div>
     </ul>
   </div>
   <!-- End Progress Section -->
 
-  
+
   <!-- Updated Plan -->
   <div class="w3-padding-64 w3-content" id="goals">
     <h2 class="w3-text-light-grey">Updated Plan</h2>
     <hr style="width:200px" class="w3-opacity">
     <p>
     <ul>
-        <li><b>Improved GUI</b> yada yada </li>
+        <li><b>Improved GUI</b> </li>
+        <li>     - Streamline spacing and formatting</li>
+        <li>     - Add more customizable parameters</li>
+        <li>     - Update paremeters in shaders when they are changed in GUI</li>
         <li><b>Non-Uniform Band Selection</b> </li>
     </ul>
     </p>
@@ -148,4 +157,3 @@ b, strong {
 
 </body>
 </html>
-
