@@ -5,7 +5,6 @@
 #include <nanogui/nanogui.h>
 
 #include "clothSimulator.h"
-#include "leak_fix.h"
 
 #include "camera.h"
 #include "cloth.h"
@@ -20,6 +19,19 @@
 using namespace nanogui;
 using namespace std;
 
+float eta = 0.2;
+int band_count = 3;
+float edge_width = 0.4;
+int highlights = 1;
+bool highlight_flag = true;
+int edges = 1;
+bool edges_flag = true;
+nanogui::Color min_color = nanogui::Color(0.2f, 0.0f, 0.0f, 1.0f);
+nanogui::Color max_color = nanogui::Color(1.0f, 0.0f, 0.0f, 1.0f);
+nanogui::Color outline_color = nanogui::Color(0.0f, 0.0f, 0.0f, 1.0f);
+
+
+//bool spec = true;
 Vector3D load_texture(int frame_idx, GLuint handle, const char* where) {
   Vector3D size_retval;
   
@@ -148,7 +160,7 @@ void ClothSimulator::load_shaders() {
   
   // Assuming that it's there, use "Wireframe" by default
   for (size_t i = 0; i < shaders_combobox_names.size(); ++i) {
-    if (shaders_combobox_names[i] == "Wireframe") {
+    if (shaders_combobox_names[i] == "Custom") {
       active_shader_idx = i;
       break;
     }
@@ -279,10 +291,10 @@ void ClothSimulator::drawContents() {
     drawNormals(shader);
     break;
   case PHONG:
-  
+
     // Others
     Vector3D cam_pos = camera.position();
-    shader.setUniform("u_color", color, false);
+    //shader.setUniform("u_color", color, false);
     shader.setUniform("u_cam_pos", Vector3f(cam_pos.x, cam_pos.y, cam_pos.z), false);
     shader.setUniform("u_light_pos", Vector3f(0.5, 2, 2), false);
     shader.setUniform("u_light_intensity", Vector3f(3, 3, 3), false);
@@ -300,6 +312,29 @@ void ClothSimulator::drawContents() {
     shader.setUniform("u_height_scaling", m_height_scaling, false);
     
     shader.setUniform("u_texture_cubemap", 5, false);
+          
+          shader.setUniform("u_eta", eta, false);
+          shader.setUniform("u_band_count", band_count, false);
+          shader.setUniform("u_edge_width", edge_width, false);
+          if (highlight_flag) {
+              highlights = 1;
+          } else {
+              highlights = 0;
+          }
+          shader.setUniform("u_highlights", highlights, false);
+          if(edges_flag) {
+              edges = 1;
+          } else {
+              edges = 0;
+          }
+          shader.setUniform("u_edges", edges, false);
+          shader.setUniform("u_min_color", min_color, false);
+          shader.setUniform("u_max_color", max_color, false);
+          shader.setUniform("u_outline_color", outline_color, false);
+
+          
+          
+
     drawPhong(shader);
     break;
   }
@@ -359,10 +394,6 @@ void ClothSimulator::drawWireframe(GLShader &shader) {
   //shader.uploadAttrib("in_normal", normals);
 
   shader.drawArray(GL_LINES, 0, num_springs * 2);
-
-#ifdef LEAK_PATCH_ON
-  shader.freeAttrib("in_position");
-#endif
 }
 
 void ClothSimulator::drawNormals(GLShader &shader) {
@@ -395,10 +426,6 @@ void ClothSimulator::drawNormals(GLShader &shader) {
   shader.uploadAttrib("in_normal", normals, false);
 
   shader.drawArray(GL_TRIANGLES, 0, num_tris * 3);
-#ifdef LEAK_PATCH_ON
-  shader.freeAttrib("in_position");
-  shader.freeAttrib("in_normal");
-#endif
 }
 
 void ClothSimulator::drawPhong(GLShader &shader) {
@@ -444,12 +471,6 @@ void ClothSimulator::drawPhong(GLShader &shader) {
   shader.uploadAttrib("in_tangent", tangents, false);
 
   shader.drawArray(GL_TRIANGLES, 0, num_tris * 3);
-#ifdef LEAK_PATCH_ON
-  shader.freeAttrib("in_position");
-  shader.freeAttrib("in_normal");
-  shader.freeAttrib("in_uv");
-  shader.freeAttrib("in_tangent");
-#endif
 }
 
 // ----------------------------------------------------------------------------
@@ -609,6 +630,24 @@ bool ClothSimulator::keyCallbackEvent(int key, int scancode, int action,
         is_paused = true;
       }
       break;
+    case '[':
+    case '{':
+        eta -= 0.01;
+        break;
+    case ']':
+    case '}':
+        eta += 0.01;
+        break;
+    
+    case '-':
+    case '_':
+        band_count -= 1;
+        break;
+    case '=':
+    case '+':
+        band_count += 1;
+        break;
+      
     }
   }
 
@@ -633,9 +672,163 @@ bool ClothSimulator::resizeCallbackEvent(int width, int height) {
 }
 
 void ClothSimulator::initGUI(Screen *screen) {
-  Window *window;
+   // Cel Shading
+    
+    Window *window;
+    
+    window = new Window(screen, "Appearance");
+    window->setPosition(Vector2i(15, 15));
+    window->setLayout(new GroupLayout(15, 6, 14, 5));
+    
+    {
+        ComboBox *cb = new ComboBox(window, shaders_combobox_names);
+        cb->setFontSize(14);
+        cb->setCallback(
+                        [this, screen](int idx) { active_shader_idx = idx; });
+        cb->setSelectedIndex(active_shader_idx);
+    }
+    
+    new Label(window, "Cel Shading", "sans-bold");
+    {
+        Widget *panel1 = new Widget(window);
+        GridLayout *layout = new GridLayout(Orientation::Horizontal, 2, Alignment::Middle, 5, 5);
+        layout->setColAlignment({Alignment::Maximum, Alignment::Fill});
+        layout->setSpacing(0, 10);
+        panel1->setLayout(layout);
+        
+        new Label(panel1, "Band Number :", "sans-bold");
+        {
+            IntBox<int> *fsec = new IntBox<int>(panel1);
+            fsec->setEditable(true);
+            fsec->setFixedSize(Vector2i(100, 20));
+            fsec->setFontSize(14);
+            fsec->setValue(band_count);
+            fsec->setSpinnable(true);
+            fsec->setCallback([this](int value) { band_count = value; });
+        }
+        new Label(panel1, "Band Distribution :", "sans-bold");
+        {
+            ComboBox *cb = new ComboBox(panel1, shaders_combobox_names);
+            cb->setFontSize(14);
+            cb->setFixedSize(Vector2i(100, 20));
+            cb->setCallback([this, screen](int idx) { active_shader_idx = idx; });
+            cb->setSelectedIndex(active_shader_idx);
+        }
+        
+        Widget *panel2 = new Widget(window);
+        panel2->setLayout(new BoxLayout(Orientation::Horizontal, Alignment::Middle, 0, 5));
+        
+        new Label(panel1, "Min Color          ", "sans-bold");
+        {
+            ColorWheel *cw = new ColorWheel(panel2, color);
+            cw->setColor(min_color);
+            cw->setCallback([this](const nanogui::Color &color) { min_color = color; });
+            //cw->setCallback([this](const nanogui::Color &color) { this->minColor = color; });
+
+        }
+        
+        new Label(panel1, "      Max Color", "sans-bold");
+        {
+            ColorWheel *cw = new ColorWheel(panel2, color);
+            cw->setColor(max_color);
+            cw->setCallback([this](const nanogui::Color &color) { max_color = color; });
+            //cw->setCallback([this](const nanogui::Color &color) { this->maxColor = color; });
+        }
+    }
+    
+    new Label(window, "Highlights", "sans-bold");
+    {
+        Button *b = new Button(window, "On / Off");
+        b->setFlags(Button::ToggleButton);
+        b->setPushed(highlight_flag);
+        b->setFontSize(14);
+        b->setChangeCallback([this](bool state) { highlight_flag = state; });
   
-  window = new Window(screen, "Simulation");
+        new Label(window, "Eta", "sans-bold");
+        {
+            Widget *panel = new Widget(window);
+            panel->setLayout(new BoxLayout(Orientation::Horizontal, Alignment::Middle, 0, 5));
+            
+            Slider *slider = new Slider(panel);
+            slider->setValue(eta);
+            slider->setFixedWidth(105);
+            
+            TextBox *percentage = new TextBox(panel);
+            percentage->setFixedWidth(75);
+            percentage->setValue(to_string(eta));
+            percentage->setUnits("%");
+            percentage->setFontSize(14);
+            
+            slider->setCallback([percentage](float value) {
+                percentage->setValue(std::to_string(value));
+            });
+            slider->setFinalCallback([&](float value) {
+                eta = (double)value;
+            });
+        }
+        Widget *panel = new Widget(window);
+        GridLayout *layout = new GridLayout(Orientation::Horizontal, 2, Alignment::Middle, 5, 5);
+        layout->setColAlignment({Alignment::Maximum, Alignment::Fill});
+        layout->setSpacing(0, 10);
+        panel->setLayout(layout);
+        
+        new Label(panel, "Highlight Type :", "sans-bold");
+        {
+            ComboBox *cb = new ComboBox(panel, shaders_combobox_names);
+            cb->setFontSize(14);
+            cb->setFixedSize(Vector2i(100, 20));
+            cb->setCallback([this, screen](int idx) { active_shader_idx = idx; });
+            cb->setSelectedIndex(active_shader_idx);
+        }
+        
+    }
+    new Label(window, "Edges", "sans-bold");
+    {
+
+        Button *b = new Button(window, "On / Off");
+        b->setFlags(Button::ToggleButton);
+        b->setPushed(edges_flag);
+        b->setFontSize(14);
+        b->setChangeCallback(
+                             [this](bool state) { edges_flag = state; });
+        
+        Widget *panel = new Widget(window);
+        GridLayout *layout = new GridLayout(Orientation::Horizontal, 2, Alignment::Middle, 5, 5);
+        layout->setColAlignment({Alignment::Maximum, Alignment::Fill});
+        layout->setSpacing(0, 10);
+        panel->setLayout(layout);
+        
+        
+        
+        new Label(panel, "Thickness :", "sans-bold");
+        {
+            FloatBox<float> *fsec = new FloatBox<float>(panel);
+            fsec->setEditable(true);
+            fsec->setFixedSize(Vector2i(100, 20));
+            fsec->setFontSize(14);
+            fsec->setValue(edge_width);
+            fsec->setSpinnable(true);
+            fsec->setCallback([this](float value) { edge_width = value; });
+            //fsec->setCallback([this](int value) { band_num = value; });
+        }
+
+        
+        new Label(panel, "Band Color :", "sans-bold");
+        {
+            ColorWheel *cw = new ColorWheel(panel, color);
+            cw->setColor(outline_color);
+            cw->setCallback([this](const nanogui::Color &color) { outline_color = color; });
+            //cw->setCallback([this](const nanogui::Color &color) { this->minColor = color; });
+        }
+        
+    }
+
+
+    
+    
+    //Window *window;
+  
+  /*window = new Window(screen, "Simulation");
   window->setPosition(Vector2i(default_window_size(0) - 245, 15));
   window->setLayout(new GroupLayout(15, 6, 14, 5));
 
@@ -701,6 +894,7 @@ void ClothSimulator::initGUI(Screen *screen) {
     fb->setMinValue(0);
     fb->setCallback([this](float value) { cp->ks = value; });
   }
+    
 
   // Simulation constants
 
@@ -809,11 +1003,15 @@ void ClothSimulator::initGUI(Screen *screen) {
     fb->setSpinnable(true);
     fb->setCallback([this](float value) { gravity.z = value; });
   }
-  
-  window = new Window(screen, "Appearance");
+*/
+    
+    
+  /*window = new Window(screen, "Appearance");
   window->setPosition(Vector2i(15, 15));
   window->setLayout(new GroupLayout(15, 6, 14, 5));
 
+    
+    
   // Appearance
 
   {
@@ -866,5 +1064,5 @@ void ClothSimulator::initGUI(Screen *screen) {
     fb->setValue(this->m_height_scaling);
     fb->setSpinnable(true);
     fb->setCallback([this](float value) { this->m_height_scaling = value; });
-  }
+  }*/
 }

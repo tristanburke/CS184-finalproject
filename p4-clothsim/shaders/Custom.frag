@@ -23,6 +23,18 @@ uniform sampler2D u_texture_4;
 // sample from this.
 uniform samplerCube u_texture_cubemap;
 
+// ADDED IN
+uniform float u_eta;
+uniform int u_band_count;
+uniform float u_edge_width;
+uniform int u_highlights;
+uniform int u_edges;
+uniform vec4 u_min_color;
+uniform vec4 u_max_color;
+uniform vec4 u_outline_color;
+//uniform vec4 u_min_color;
+//uniform float u_spec;
+
 in vec4 v_position;
 in vec4 v_normal;
 in vec4 v_tangent;
@@ -32,6 +44,67 @@ out vec4 out_color;
 
 void main() {
   // Your awesome shader here!
-  out_color = (vec4(1, 1, 1, 0) + v_normal) / 2;
+    float band_num = u_band_count;
+    if (band_num < 1) {
+        band_num = 1;
+    }
+  float normal_range = 2.0 / band_num;
+
+  float rx = (u_max_color[0] - u_min_color[0]) / band_num;
+  float bx = (u_max_color[1] - u_min_color[1]) / band_num;
+  float gx = (u_max_color[2] - u_min_color[2]) / band_num;
+
+  out_color = u_min_color;
+
+  float index = dot(vec4(u_light_pos,1), v_normal);
+
+  // Normal Distribution 
+  
+
+  for (int i = 0; i < band_num; i++) {
+  	float i_float = float(i);
+  	float curr_min = -1.0 + i_float * normal_range;
+  	float curr_max = -1.0 + (i_float+1) * normal_range;
+  	if (index >= curr_min && index <= curr_max) {
+  		out_color = u_min_color + ((u_max_color - u_min_color) / band_num) * i_float;
+  	}
+  }
+  if (index >= 1 - normal_range) {
+  	out_color = u_max_color;
+  }
+
+  // Specular Highlights
+    
+    vec4 camDir = normalize(vec4(u_cam_pos,1) - v_position);
+    vec4 wi = normalize(v_position  - vec4(u_light_pos,1));
+    vec4 wo = 2 * dot(v_normal, wi) * v_normal - wi;
+    vec4 H = normalize(wo + camDir / length(wo + camDir));
+    //float eta = 0.08;
+    if (u_highlights == 1) {
+        if (dot(H, v_normal) > 1 - u_eta) {
+            out_color = vec4(1,1,1,1);
+        }
+    }
+    
+    
+
+    // Edge Detection
+    if (u_edges == 1) {
+        //vec4 edge_color = vec4(0,0,0,1);
+        float edge_width = u_edge_width;
+        //float edge_width = 0.4;
+        if (edge_width <= 0.0) {
+            edge_width = 0.001;
+        }
+        float edge = dot(v_normal, camDir);
+        edge = clamp(edge, 0, 1);
+        if(edge < edge_width) {
+            out_color = u_outline_color;
+        }
+    }
+
+
   out_color.a = 1;
+
+
 }
