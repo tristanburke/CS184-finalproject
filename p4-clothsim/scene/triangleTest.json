@@ -9,17 +9,12 @@
     "orientation": 0,
     "width": 1,
     "height": 1,
-    "num_width_points": 50,
-    "num_height_points": 50,
+    "num_width_points": 2,
+    "num_height_points": 2,
     "thickness": 0.0095,
     "pinned": [
       [0, 0], [49, 0]
     ]
-  }, 
-  "sphere": {
-    "origin": [0.5, 0.2, 0.5],
-    "radius": 0.2,
-    "friction": 0.3
   }, 
   "ctriangle": {
     "pointA": [0.0, 0.7, 0.7],

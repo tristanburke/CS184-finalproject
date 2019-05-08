@@ -12,7 +12,7 @@ using namespace CGL;
 #define SURFACE_OFFSET 0.0001
 
 void cTriangle::collide(PointMass &pm) {
-    cout << "Testing triangle collision" << endl;
+    return;
 }
 
 void cTriangle::render(GLShader &shader) {
