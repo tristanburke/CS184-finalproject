@@ -20,6 +20,7 @@
 #include "clothSimulator.h"
 #include "json.hpp"
 #include "misc/file_utils.h"
+#include "misc/OBJ_Loader.h"
 
 typedef uint32_t gid_t;
 
@@ -453,11 +454,20 @@ int main(int argc, char **argv) {
     std::string file_to_load_from;
     bool file_specified = false;
     
-    while ((c = getopt (argc, argv, "f:r:a:o:")) != -1) {
+    std::string mesh_file_name;
+    bool mesh_specified = false;
+    
+    while ((c = getopt (argc, argv, "f:m:r:a:o:")) != -1) {
         switch (c) {
             case 'f': {
                 file_to_load_from = optarg;
                 file_specified = true;
+                break;
+            }
+            case 'm': {
+                cout << optarg << " Here is the progress!!!" << endl;
+                mesh_file_name = optarg;
+                mesh_specified = true;
                 break;
             }
             case 'r': {
@@ -503,6 +513,12 @@ int main(int argc, char **argv) {
         def_fname << project_root;
         def_fname << "/scene/pinned2.json";
         file_to_load_from = def_fname.str();
+    }
+    
+    if(mesh_specified) {
+        objl::Loader loader;
+        loader.LoadFile(mesh_file_name);
+        cout << "Hello world: " << loader.LoadedMeshes[0].Vertices[0].Position.X << ", " << loader.LoadedMeshes[0].Vertices[0].Normal.X << endl;
     }
     
     bool success = loadObjectsFromFile(file_to_load_from, &cloth, &cp, &objects, sphere_num_lat, sphere_num_lon);

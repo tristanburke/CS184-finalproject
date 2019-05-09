@@ -9,7 +9,7 @@ set(CLOTHSIM_VIEWER_SOURCE
     # Collision objects
     collision/sphere.cpp
     collision/plane.cpp
-    Collision/ctriangle.cpp
+    collision/ctriangle.cpp
 
     # Application
     main.cpp
