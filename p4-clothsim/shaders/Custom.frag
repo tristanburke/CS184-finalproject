@@ -61,10 +61,11 @@ void main() {
   // Normal Distribution 
   
 
+
   for (int i = 0; i < band_num; i++) {
   	float i_float = float(i);
   	float curr_min = -1.0 + i_float * normal_range;
-  	float curr_max = -1.0 + (i_float+1) * normal_range;
+  	float curr_max = curr_min + normal_range;
   	if (index >= curr_min && index <= curr_max) {
   		out_color = u_min_color + ((u_max_color - u_min_color) / band_num) * i_float;
   	}
@@ -76,10 +77,9 @@ void main() {
   // Specular Highlights
     
     vec4 camDir = normalize(vec4(u_cam_pos,1) - v_position);
-    vec4 wi = normalize(v_position  - vec4(u_light_pos,1));
-    vec4 wo = 2 * dot(v_normal, wi) * v_normal - wi;
-    vec4 H = normalize(wo + camDir / length(wo + camDir));
-    //float eta = 0.08;
+    vec4 wi = normalize(vec4(u_light_pos,1) - v_position);
+    // vec4 wo = 2 * dot(v_normal, wi) * v_normal - wi;
+    vec4 H = normalize(wi + camDir / length(wi + camDir));
     if (u_highlights == 1) {
         if (dot(H, v_normal) > 1 - u_eta) {
             out_color = vec4(1,1,1,1);
