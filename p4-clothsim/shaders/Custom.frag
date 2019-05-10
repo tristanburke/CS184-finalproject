@@ -59,12 +59,7 @@ void main() {
 
   float index = dot(vec4(u_light_pos,1), v_normal);
   //index = atan(index);
-
   //index = (1 / (1 + exp(-index)));
-
-  // Normal Distribution 
-  
-
 
   for (int i = 0; i < band_num; i++) {
   	float i_float = float(i);
@@ -79,9 +74,7 @@ void main() {
   }
 
   // Specular Highlights
-    
     vec4 camDir = normalize(vec4(u_cam_pos,1) - v_position);
-
     vec4 wi = normalize(vec4(u_light_pos,1) - v_position);
     vec4 H = normalize(wi + camDir / length(wi + camDir));
     if (u_highlights == 1) {
@@ -91,8 +84,6 @@ void main() {
         }
     }
     
-    
-
     // Edge Detection
     if (u_edges == 1) {
         //vec4 edge_color = vec4(0,0,0,1);
@@ -107,9 +98,5 @@ void main() {
             out_color = u_outline_color;
         }
     }
-
-
   out_color.a = 1;
-
-
 }

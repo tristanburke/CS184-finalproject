@@ -69,7 +69,7 @@ void createGLContexts() {
     glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
     
     // Create a GLFWwindow object
-    window = glfwCreateWindow(800, 800, "Cloth Simulator", nullptr, nullptr);
+    window = glfwCreateWindow(800, 800, "Cel Shader", nullptr, nullptr);
     if (window == nullptr) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
