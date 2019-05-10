@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<title>CS184 Final Project: Cel-Shading</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
+.w3-row-padding img {margin-bottom: 12px}
+/* Set the width of the sidebar to 120px */
+.w3-sidebar {width: 120px;background: #222;}
+/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
+#main {margin-left: 120px}
+/* Remove margins from "page content" on small screens */
+@media only screen and (max-width: 600px) {#main {margin-left: 0}}
+</style>
+<body class="w3-black">
+
+<!-- Icon Bar (Sidebar - hidden on small screens) -->
+<nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
+  <!-- Avatar image in top left corner -->
+  <a href="#" class="w3-bar-item w3-button w3-padding-large w3-black">
+    <i class="fa fa-info-circle w3-xxlarge"></i>
+    <p>Overview</p>
+  </a>
+  <a href="#approach" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-check-circle-o w3-xxlarge"></i>
+    <p>Goals and Deliverables</p>
+  </a>
+  <a href="#lessons" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-calendar-o w3-xxlarge"></i>
+    <p>Lessons</p>
+  </a>
+  <a href="#references" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-pencil-square-o w3-xxlarge"></i>
+    <p>References</p>
+  </a>
+</nav>
+
+<!-- Navbar on small screens (Hidden on medium and large screens) -->
+<div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
+  <div class="w3-bar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small">
+    <a href="#" class="w3-bar-item w3-button" style="width:25% !important">OverviewE</a>
+    <a href="#goals" class="w3-bar-item w3-button" style="width:25% !important">Goals and Deliverables</a>
+    <a href="#schedule" class="w3-bar-item w3-button" style="width:25% !important">Schedules</a>
+    <a href="#resources" class="w3-bar-item w3-button" style="width:25% !important">Resoures</a>
+  </div>
+</div>
+
+<!-- Page Content -->
+<div class="w3-padding-large" id="main">
+  <!-- Header/Home -->
+  <header class="w3-container w3-padding-32 w3-center w3-black">
+    <h1 class="w3-jumbo"><span class="w3-hide-small"></span>Cel Shading</h1>
+    <p>Tristan Burke, Andrew Noglows, Shivam Parikh</p>
+    <img src="images/progress2.png" width="300px"/>
+  </header>
+
+  <!-- About Section -->
+  <div class="w3-content w3-justify w3-padding-64" id="home">
+    <h2 class="w3-text-light-grey">Abstract</h2>
+    <hr style="width:200px" class="w3-opacity">
+    <p>Our project was to implement a Cel-Shader, also known as a toon shader. This shading method is similar to the comic book style of rendering images. For the scope of our project, we implemented a single color renderer that has the ability to take in primitive objects, like triangles, spheres, and planes. An added functionality was being able to import triangle meshes in the Wavefront .obj file format. We are pleased to share our results with you below.
+    <h2 class="w3-text-light-grey">Problem Description</h2>
+    <hr style="width:200px" class="w3-opacity">
+    <p>We wanted to start by modifying our Project-4 Renderer to utilise the GLSL Shader Capabilities for our problem. We split the problem statement into a few parts. First, we wanted to build a GLSL Shader that applied the properties of the classical toon-shader. Then, we wanted to modify the GUI in the Project-4 Renderer to apply dynamic parameters that could result in different output images for our objects. And finally, we wanted to add more than just collision objects to our input abilities so that we could render external meshes, preferably in pre-existing file formats. One part of our problem that we would have preferred to add but were unable to is the potential for multi-colored scene files.</p>
+  </div>
+  
+  <!-- Goals Section -->
+  <div class="w3-padding-64 w3-content" id="approach">
+    <h2 class="w3-text-light-grey">The Technical Approach</h2>
+    <hr style="width:200px" class="w3-opacity">
+    <ul>
+        <li><b>The GLSL Shader: </b>Insert text about our GLSL Shader and Fragment files here. Include how GPU Acceleration helps our case.
+            <div align="center">
+                <img src="images/teapot.png" width="300px" />
+                <figcaption align="middle">Utah Teapot with Cel-Shading</figcaption>
+            </div>
+        </li>
+        <li><b>Shading Algorithms: </b>Write about using the Blinn-Phong Shading Algorithm and the uniform band distribution, attempting the non-uniform band distribution, and the edge detection algorithm for outlines.</li>
+        <li><b>Updating the GUI: </b>Insert text about the GUI updates and the parameters that can change and how they affect the scene. Also add images for the parameters. 
+            <div align="center">
+                <img src="images/lut.png" width="300px" />
+                <figcaption align="middle">Customizing the LUT settings of a sphere</figcaption>
+            </div></li>
+        <li><b>The OBJ Loader: </b>Write about incorporating the OBJ Loader into the project so we could take in input meshes from elsewhere. "https://github.com/Bly7/OBJ-Loader/blob/master/Source/OBJ_Loader.h"
+             <div align="center">
+                <img src="images/highlights.png" width="300px" />
+                <figcaption align="middle">Highlights</figcaption>
+            </div>
+        </li>
+        <li><b>Modifying Meshes: </b>Write about using MeshLab to modify meshes, perform loop subdivision, rectify inverted normals, and more.
+            <div align="center">
+                <img src="images/blackoutline.png" width="300px" />
+                <figcaption align="middle">Notice the outlines surrounding the characters and background</figcaption>
+            </div>
+        </li>
+        
+    </ul>
+  </div>
+  <!-- End Goals Section -->
+
+
+  <!-- Schedule Section -->
+  <div class="w3-padding-64 w3-content w3-text-grey" id="lessons">
+    <h2 class="w3-text-light-grey">Lessons Learned</h2>
+    <hr style="width:200px" class="w3-opacity">
+    <p>Overall, this was a rather interesting project, we learned the following lessons. etc.</p>
+  </div>
+  <!-- End Schedule Section -->
+
+
+  <!-- resources Section -->
+  <div class="w3-padding-64 w3-content w3-text-grey" id="references">
+    <h2 class="w3-text-light-grey">References</h2>
+    <hr style="width:200px" class="w3-opacity">
+    <p>Here are some of our resources: </p>
+    <ul>
+        <li> Project 3-2 </li>
+        <li> https://en.wikipedia.org/wiki/Cel_shading </li>
+        <li> https://www.raywenderlich.com/146-unreal-engine-4-cel-shading-tutorial </li>
+        <li> http://nehe.gamedev.net/tutorial/cel_shading/25001/ </li>
+        <li> http://www.lighthouse3d.com/tutorials/glsl-12-tutorial/toon-shading/ </li>
+        <li> https://www.cs.rpi.edu/~cutler/classes/advancedgraphics/S12/final_projects/hutchins_kim.pdf </li>
+        <li> http://rbwhitaker.wikidot.com/toon-shader </li>
+        <li> https://www.reddit.com/r/unrealengine/comments/7wgas1/creating_cel_shading_with_outlines/ </li> <li>http://users.csc.calpoly.edu/~zwood/teaching/csc471/finalproj24/nmarcy/</li>
+    </ul>
+  <!-- End resources Section -->
+  </div>
+
+<!-- END PAGE CONTENT -->
+</div>
+
+</body>
+</html>
+
