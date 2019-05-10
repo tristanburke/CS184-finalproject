@@ -61,10 +61,7 @@ void main() {
     out_color = texture(u_texture_1, v_uv) * u_shade;
     
     float index = dot(vec4(u_light_pos,1), v_normal);
-    //index = atan(index);
-    //index = (1 / (1 + exp(-index)));
     
-    //float shade = (1 - start) * 2 / band_num;
     float shade = 0.0;
     
     for (int i = 0; i < band_num; i++) {
@@ -76,7 +73,7 @@ void main() {
 
             //out_color = u_min_color + ((u_max_color - u_min_color) / band_num) * i_float;
         }
-        shade += (1 - u_shade) * 2 / band_num;
+        shade += (1 - u_shade) * 2 / (band_num);
     }
     if (index >= 1 - normal_range) {
         out_color = texture(u_texture_1, v_uv) * (2.0 - u_shade);
