@@ -31,6 +31,7 @@ private:
     
     MatrixXf positions;
     MatrixXf normals;
+    MatrixXf uvs;
 };
 
 #endif // CGL_UTIL_MESHDRAWING_H
