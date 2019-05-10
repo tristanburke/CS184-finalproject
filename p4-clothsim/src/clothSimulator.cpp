@@ -20,6 +20,8 @@
 using namespace nanogui;
 using namespace std;
 
+float shade = 0.5;
+
 float eta = 0.08;
 int band_count = 3;
 float edge_width = 0.2;
@@ -347,6 +349,7 @@ void ClothSimulator::drawContents() {
             shader.setUniform("u_min_color", min_color, false);
             shader.setUniform("u_max_color", max_color, false);
             shader.setUniform("u_outline_color", outline_color, false);
+            shader.setUniform("u_shade", shade, false);
             
             
             
@@ -724,6 +727,17 @@ void ClothSimulator::initGUI(Screen *screen) {
             fsec->setValue(band_count);
             fsec->setSpinnable(true);
             fsec->setCallback([this](int value) { band_count = value; });
+        }
+        new Label(panel1, "Texture Diversion (Cel only):", "sans-bold");
+        {
+            FloatBox<float> *fsec = new FloatBox<float>(panel1);
+            fsec->setEditable(true);
+            fsec->setFixedSize(Vector2i(100, 20));
+            fsec->setFontSize(14);
+            fsec->setValue(shade);
+            fsec->setSpinnable(true);
+            fsec->setCallback([this](float value) { shade = value; });
+            //fsec->setCallback([this](int value) { band_num = value; });
         }
         
         Widget *panel2 = new Widget(window);
