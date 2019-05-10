@@ -76,7 +76,7 @@ void main() {
   // Specular Highlights
     
     vec4 camDir = normalize(vec4(u_cam_pos,1) - v_position);
-    vec4 wi = normalize(v_position  - vec4(u_light_pos,1));
+    vec4 wi = normalize(v_position - vec4(u_light_pos,1));
     vec4 wo = 2 * dot(v_normal, wi) * v_normal - wi;
     vec4 H = normalize(wo + camDir / length(wo + camDir));
     //float eta = 0.08;
