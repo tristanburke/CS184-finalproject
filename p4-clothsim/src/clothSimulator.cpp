@@ -200,8 +200,13 @@ void ClothSimulator::loadClothParameters(ClothParameters *cp) { this->cp = cp; }
 
 void ClothSimulator::loadCollisionObjects(vector<CollisionObject *> *objects) { this->collision_objects = objects; }
 
-void ClothSimulator::loadFileMesh(FileMesh *fm) {
-    this->fm = fm;
+void ClothSimulator::loadFileMesh(FileMesh *fm, bool exists) {
+    if(exists){
+        this->fm = fm;
+    }
+    else{
+        this->fm = nullptr;
+    }
 }
 
 /**
@@ -347,9 +352,9 @@ void ClothSimulator::drawContents() {
     for (CollisionObject *co : *collision_objects) {
         co->render(shader);
     }
-    
-    fm->draw_mesh(shader);
-    
+    if(fm != nullptr){
+        fm->draw_mesh(shader);
+    }
 }
 
 void ClothSimulator::drawWireframe(GLShader &shader) {

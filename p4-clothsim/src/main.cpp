@@ -540,7 +540,10 @@ int main(int argc, char **argv) {
         loader.LoadFile(mesh_file_name);
         cout << "Hello world: " << loader.LoadedMeshes[0].Vertices[0].Position.X << ", " << loader.LoadedMeshes[0].Vertices[0].Normal.X << endl;
         FileMesh fm = FileMesh(loader);
-        app->loadFileMesh(&fm);
+        app->loadFileMesh(&fm, true);
+    }
+    else{
+        app->loadFileMesh(nullptr, false);
     }
     app->init();
     

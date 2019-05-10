@@ -23,7 +23,7 @@ public:
     void loadCloth(Cloth *cloth);
     void loadClothParameters(ClothParameters *cp);
     void loadCollisionObjects(vector<CollisionObject *> *objects);
-    void loadFileMesh(FileMesh *fm);
+    void loadFileMesh(FileMesh *fm, bool exists);
     virtual bool isAlive();
     virtual void drawContents();
     
