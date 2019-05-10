@@ -20,9 +20,9 @@
 using namespace nanogui;
 using namespace std;
 
-float eta = 0.2;
+float eta = 0.08;
 int band_count = 3;
-float edge_width = 0.4;
+float edge_width = 0.2;
 int highlights = 1;
 bool highlight_flag = true;
 int edges = 1;
