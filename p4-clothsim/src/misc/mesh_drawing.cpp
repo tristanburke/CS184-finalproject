@@ -58,9 +58,9 @@ void FileMesh::build_data(objl::Loader &loader) {
         positions.col(i + 1) << p2.x, p2.y, p2.z, 1.0;
         positions.col(i + 2) << p3.x, p3.y, p3.z, 1.0;
 
-        normals.col(i    ) << -n1.x, -n1.y, -n1.z, 0.0;
-        normals.col(i + 1) << -n2.x, -n2.y, -n2.z, 0.0;
-        normals.col(i + 2) << -n3.x, -n3.y, -n3.z, 0.0;
+        normals.col(i    ) << n1.x, n1.y, n1.z, 0.0;
+        normals.col(i + 1) << n2.x, n2.y, n2.z, 0.0;
+        normals.col(i + 2) << n3.x, n3.y, n3.z, 0.0;
     }
 }
 
