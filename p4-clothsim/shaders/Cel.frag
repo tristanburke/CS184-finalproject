@@ -56,24 +56,25 @@ void main() {
     float gx = (u_max_color[2] - u_min_color[2]) / band_num;
     
     
-    out_color = texture(u_texture_1, v_uv) * 0.7;
+    out_color = texture(u_texture_1, v_uv) * 0.5;
     
     float index = dot(vec4(u_light_pos,1), v_normal);
     //index = atan(index);
     //index = (1 / (1 + exp(-index)));
     
-    float shade = 0.6 / band_num;
+    float shade = 1.0 / band_num;
+    shade = 0.0;
     
     for (int i = 0; i < band_num; i++) {
         float i_float = float(i);
         float curr_min = -1.0 + i_float * normal_range;
         float curr_max = curr_min + normal_range;
         if (index >= curr_min && index <= curr_max) {
-            out_color = texture(u_texture_1, v_uv) * (0.7 + shade);
+            out_color = texture(u_texture_1, v_uv) * (0.5 + shade);
 
             //out_color = u_min_color + ((u_max_color - u_min_color) / band_num) * i_float;
         }
-        shade += 0.6 / band_num;
+        shade += 1.0 / band_num;
     }
     if (index >= 1 - normal_range) {
         out_color = texture(u_texture_1, v_uv) * 1.3;
