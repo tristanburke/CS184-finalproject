@@ -21,6 +21,7 @@
 #include "json.hpp"
 #include "misc/file_utils.h"
 #include "misc/OBJ_Loader.h"
+#include "misc/mesh_drawing.h"
 
 typedef uint32_t gid_t;
 
@@ -515,11 +516,6 @@ int main(int argc, char **argv) {
         file_to_load_from = def_fname.str();
     }
     
-    if(mesh_specified) {
-        objl::Loader loader;
-        loader.LoadFile(mesh_file_name);
-        cout << "Hello world: " << loader.LoadedMeshes[0].Vertices[0].Position.X << ", " << loader.LoadedMeshes[0].Vertices[0].Normal.X << endl;
-    }
     
     bool success = loadObjectsFromFile(file_to_load_from, &cloth, &cp, &objects, sphere_num_lat, sphere_num_lon);
     if (!success) {
@@ -539,6 +535,13 @@ int main(int argc, char **argv) {
     app->loadCloth(&cloth);
     app->loadClothParameters(&cp);
     app->loadCollisionObjects(&objects);
+    if(mesh_specified) {
+        objl::Loader loader;
+        loader.LoadFile(mesh_file_name);
+        cout << "Hello world: " << loader.LoadedMeshes[0].Vertices[0].Position.X << ", " << loader.LoadedMeshes[0].Vertices[0].Normal.X << endl;
+        FileMesh fm = FileMesh(loader);
+        app->loadFileMesh(&fm);
+    }
     app->init();
     
     // Call this after all the widgets have been defined

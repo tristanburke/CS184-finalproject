@@ -8,6 +8,8 @@
 #include "CGL/color.h"
 #include "CGL/vector3D.h"
 
+#include "OBJ_Loader.h"
+
 #define TCOORD_OFFSET 0
 #define NORMAL_OFFSET 2
 #define VERTEX_OFFSET 5
@@ -16,66 +18,64 @@
 
 using namespace nanogui;
 
-namespace CGL {
-    namespace Misc {
+FileMesh::FileMesh(objl::Loader &loader)
+{
+//            Indices.resize(loader->LoadedMeshes[0].Indices.size());
+//            Vertices.resize(loader->LoadedMeshes[0].Vertices.size());
+    num_indices = loader.LoadedMeshes[0].Indices.size();
+    num_vertices = loader.LoadedMeshes[0].Vertices.size();
+    build_data(loader);
+}
+
+void FileMesh::build_data(objl::Loader &loader) {
+    
+    
+    std::cout << "NUM INDICES " << num_indices << ", NUM VERT " << num_vertices << std::endl;
+    
+    positions = MatrixXf(4, num_indices * 3);
+    normals = MatrixXf(4, num_indices * 3);
+    
+    for (int i = 0; i < num_indices; i += 3) {
+        objl::Vertex *vPtr1 = &loader.LoadedMeshes[0].Vertices[loader.LoadedMeshes[0].Indices[i]];
+        objl::Vertex *vPtr2 = &loader.LoadedMeshes[0].Vertices[loader.LoadedMeshes[0].Indices[i+1]];
+        objl::Vertex *vPtr3 = &loader.LoadedMeshes[0].Vertices[loader.LoadedMeshes[0].Indices[i+2]];
         
-        FileMesh::FileMesh(int num_indices, int num_vertices)
-        :  {
-            
-            Indices.resize(num_indices);
-            Vertices.resize(VERTEX_SIZE * num_vertices);
-            
-            build_data();
-        }
+        CGL::Vector3D p1(vPtr1->Position.X, vPtr1->Position.Y,
+                    vPtr1->Position.Z);
+        CGL::Vector3D p2(vPtr2->Position.X, vPtr2->Position.Y,
+                    vPtr2->Position.Z);
+        CGL::Vector3D p3(vPtr3->Position.X, vPtr3->Position.Y,
+                    vPtr3->Position.Z);
+
+        CGL::Vector3D n1(vPtr1->Normal.X, vPtr1->Normal.Y,
+                    vPtr1->Normal.Z);
+        CGL::Vector3D n2(vPtr2->Normal.X, vPtr2->Normal.Y,
+                    vPtr2->Normal.Z);
+        CGL::Vector3D n3(vPtr3->Normal.X, vPtr3->Normal.Y,
+                    vPtr3->Normal.Z);
         
-        void FileMesh::build_data() {
-            
-            positions = MatrixXf(4, num_indices * 3);
-            normals = MatrixXf(4, num_indices * 3);
-            
-            for (int i = 0; i < num_indices; i += 3) {
-                double *vPtr1 = &Vertices[VERTEX_SIZE * Indices[i]];
-                double *vPtr2 = &Vertices[VERTEX_SIZE * Indices[i + 1]];
-                double *vPtr3 = &Vertices[VERTEX_SIZE * Indices[i + 2]];
-                
-                Vector3D p1(vPtr1[VERTEX_OFFSET], vPtr1[VERTEX_OFFSET + 1],
-                            vPtr1[VERTEX_OFFSET + 2]);
-                Vector3D p2(vPtr2[VERTEX_OFFSET], vPtr2[VERTEX_OFFSET + 1],
-                            vPtr2[VERTEX_OFFSET + 2]);
-                Vector3D p3(vPtr3[VERTEX_OFFSET], vPtr3[VERTEX_OFFSET + 1],
-                            vPtr3[VERTEX_OFFSET + 2]);
-                
-                Vector3D n1(vPtr1[NORMAL_OFFSET], vPtr1[NORMAL_OFFSET + 1],
-                            vPtr1[NORMAL_OFFSET + 2]);
-                Vector3D n2(vPtr2[NORMAL_OFFSET], vPtr2[NORMAL_OFFSET + 1],
-                            vPtr2[NORMAL_OFFSET + 2]);
-                Vector3D n3(vPtr3[NORMAL_OFFSET], vPtr3[NORMAL_OFFSET + 1],
-                            vPtr3[NORMAL_OFFSET + 2]);
-                
-                positions.col(i    ) << p1.x, p1.y, p1.z, 1.0;
-                positions.col(i + 1) << p2.x, p2.y, p2.z, 1.0;
-                positions.col(i + 2) << p3.x, p3.y, p3.z, 1.0;
-                
-                normals.col(i    ) << n1.x, n1.y, n1.z, 0.0;
-                normals.col(i + 1) << n2.x, n2.y, n2.z, 0.0;
-                normals.col(i + 2) << n3.x, n3.y, n3.z, 0.0;
-            }
-        }
-        
-        void FileMesh::draw_mesh(GLShader &shader) {
-            shader.uploadAttrib("in_position", positions);
-            if (shader.attrib("in_normal", false) != -1) {
-                shader.uploadAttrib("in_normal", normals);
-            }
-            
-            shader.drawArray(GL_TRIANGLES, 0, sphere_num_indices);
+        positions.col(i    ) << p1.x, p1.y, p1.z, 1.0;
+        positions.col(i + 1) << p2.x, p2.y, p2.z, 1.0;
+        positions.col(i + 2) << p3.x, p3.y, p3.z, 1.0;
+
+        normals.col(i    ) << -n1.x, -n1.y, -n1.z, 0.0;
+        normals.col(i + 1) << -n2.x, -n2.y, -n2.z, 0.0;
+        normals.col(i + 2) << -n3.x, -n3.y, -n3.z, 0.0;
+    }
+}
+
+void FileMesh::draw_mesh(GLShader &shader) {
+    shader.uploadAttrib("in_position", positions);
+    if (shader.attrib("in_normal", false) != -1) {
+        shader.uploadAttrib("in_normal", normals);
+    }
+    
+    shader.drawArray(GL_TRIANGLES, 0, num_indices);
 #ifdef LEAK_PATCH_ON
-            shader.freeAttrib("in_position");
-            if (shader.attrib("in_normal", false) != -1) {
-                shader.freeAttrib("in_normal");
-            }
+    shader.freeAttrib("in_position");
+    if (shader.attrib("in_normal", false) != -1) {
+        shader.freeAttrib("in_normal");
+    }
 #endif
-        }
-        
-    } // namespace Misc
-} // namespace CGL
+}
+
