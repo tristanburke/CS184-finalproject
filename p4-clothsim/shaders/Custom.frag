@@ -58,9 +58,9 @@ void main() {
   out_color = u_min_color;
 
   float index = dot(vec4(u_light_pos,1), v_normal);
-  index = atan(index);
+  //index = atan(index);
 
-  index = (1 / (1 + exp(-index)));
+  //index = (1 / (1 + exp(-index)));
 
   // Normal Distribution 
   
