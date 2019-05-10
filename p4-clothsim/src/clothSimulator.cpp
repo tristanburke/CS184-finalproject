@@ -714,14 +714,14 @@ void ClothSimulator::initGUI(Screen *screen) {
             fsec->setSpinnable(true);
             fsec->setCallback([this](int value) { band_count = value; });
         }
-        new Label(panel1, "Band Distribution :", "sans-bold");
+        /*new Label(panel1, "Band Distribution :", "sans-bold");
         {
             ComboBox *cb = new ComboBox(panel1, shaders_combobox_names);
             cb->setFontSize(14);
             cb->setFixedSize(Vector2i(100, 20));
             cb->setCallback([this, screen](int idx) { active_shader_idx = idx; });
             cb->setSelectedIndex(active_shader_idx);
-        }
+        }*/
         
         Widget *panel2 = new Widget(window);
         panel2->setLayout(new BoxLayout(Orientation::Horizontal, Alignment::Middle, 0, 5));
@@ -780,14 +780,14 @@ void ClothSimulator::initGUI(Screen *screen) {
         layout->setSpacing(0, 10);
         panel->setLayout(layout);
         
-        new Label(panel, "Highlight Type :", "sans-bold");
+        /*new Label(panel, "Highlight Type :", "sans-bold");
         {
             ComboBox *cb = new ComboBox(panel, shaders_combobox_names);
             cb->setFontSize(14);
             cb->setFixedSize(Vector2i(100, 20));
             cb->setCallback([this, screen](int idx) { active_shader_idx = idx; });
             cb->setSelectedIndex(active_shader_idx);
-        }
+        }*/
         
     }
     new Label(window, "Edges", "sans-bold");
