@@ -57,6 +57,9 @@ void main() {
   out_color = u_min_color;
 
   float index = dot(vec4(u_light_pos,1), v_normal);
+  index = atan(index);
+
+  index = (1 / (1 + exp(-index)));
 
   // Normal Distribution 
   
@@ -78,7 +81,6 @@ void main() {
     
     vec4 camDir = normalize(vec4(u_cam_pos,1) - v_position);
     vec4 wi = normalize(vec4(u_light_pos,1) - v_position);
-    // vec4 wo = 2 * dot(v_normal, wi) * v_normal - wi;
     vec4 H = normalize(wi + camDir / length(wi + camDir));
     if (u_highlights == 1) {
         if (dot(H, v_normal) > 1 - u_eta) {
