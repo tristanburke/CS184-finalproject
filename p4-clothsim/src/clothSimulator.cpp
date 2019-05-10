@@ -27,6 +27,7 @@ int highlights = 1;
 bool highlight_flag = true;
 int edges = 1;
 bool edges_flag = true;
+float spec_intensity = 0.5;
 //Vector3f light_pos = Vector3f(0.5, 2, 2);
 float lp_x = 0.5;
 float lp_y = 2.0;
@@ -311,7 +312,8 @@ void ClothSimulator::drawContents() {
             //shader.setUniform("u_color", color, false);
             shader.setUniform("u_cam_pos", Vector3f(cam_pos.x, cam_pos.y, cam_pos.z), false);
             shader.setUniform("u_light_pos", Vector3f(lp_x, lp_y, lp_z), false);
-            shader.setUniform("u_light_intensity", Vector3f(1, 1, 1), false);
+            shader.setUniform("u_light_intensity", Vector3f(3, 3, 3), false);
+            shader.setUniform("u_spec_intensity", spec_intensity, false);
             shader.setUniform("u_texture_1_size", Vector2f(m_gl_texture_1_size.x, m_gl_texture_1_size.y), false);
             shader.setUniform("u_texture_2_size", Vector2f(m_gl_texture_2_size.x, m_gl_texture_2_size.y), false);
             shader.setUniform("u_texture_3_size", Vector2f(m_gl_texture_3_size.x, m_gl_texture_3_size.y), false);
@@ -723,14 +725,6 @@ void ClothSimulator::initGUI(Screen *screen) {
             fsec->setSpinnable(true);
             fsec->setCallback([this](int value) { band_count = value; });
         }
-        new Label(panel1, "Band Distribution :", "sans-bold");
-        {
-            ComboBox *cb = new ComboBox(panel1, shaders_combobox_names);
-            cb->setFontSize(14);
-            cb->setFixedSize(Vector2i(100, 20));
-            cb->setCallback([this, screen](int idx) { active_shader_idx = idx; });
-            cb->setSelectedIndex(active_shader_idx);
-        }
         
         Widget *panel2 = new Widget(window);
         panel2->setLayout(new BoxLayout(Orientation::Horizontal, Alignment::Middle, 0, 5));
@@ -783,19 +777,28 @@ void ClothSimulator::initGUI(Screen *screen) {
                 eta = (double)value;
             });
         }
-        Widget *panel = new Widget(window);
-        GridLayout *layout = new GridLayout(Orientation::Horizontal, 2, Alignment::Middle, 5, 5);
-        layout->setColAlignment({Alignment::Maximum, Alignment::Fill});
-        layout->setSpacing(0, 10);
-        panel->setLayout(layout);
-        
-        new Label(panel, "Highlight Type :", "sans-bold");
+
+        new Label(window, "Specular Intensity", "sans-bold");
         {
-            ComboBox *cb = new ComboBox(panel, shaders_combobox_names);
-            cb->setFontSize(14);
-            cb->setFixedSize(Vector2i(100, 20));
-            cb->setCallback([this, screen](int idx) { active_shader_idx = idx; });
-            cb->setSelectedIndex(active_shader_idx);
+            Widget *panel = new Widget(window);
+            panel->setLayout(new BoxLayout(Orientation::Horizontal, Alignment::Middle, 0, 5));
+            
+            Slider *slider = new Slider(panel);
+            slider->setValue(spec_intensity);
+            slider->setFixedWidth(105);
+            
+            TextBox *percentage = new TextBox(panel);
+            percentage->setFixedWidth(75);
+            percentage->setValue(to_string(spec_intensity));
+            percentage->setUnits("%");
+            percentage->setFontSize(14);
+            
+            slider->setCallback([percentage](float value) {
+                percentage->setValue(std::to_string(value));
+            });
+            slider->setFinalCallback([&](float value) {
+                spec_intensity = (double)value;
+            });
         }
         
     }

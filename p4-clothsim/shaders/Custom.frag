@@ -32,6 +32,7 @@ uniform int u_edges;
 uniform vec4 u_min_color;
 uniform vec4 u_max_color;
 uniform vec4 u_outline_color;
+uniform float u_spec_intensity;
 //uniform vec4 u_min_color;
 //uniform float u_spec;
 
@@ -85,7 +86,8 @@ void main() {
     vec4 H = normalize(wi + camDir / length(wi + camDir));
     if (u_highlights == 1) {
         if (dot(H, v_normal) > 1 - u_eta) {
-            out_color = vec4(1,1,1,1);
+            out_color += u_spec_intensity * vec4(1, 1, 1, 1);
+//            out_color = vec4(1,1,1,1);
         }
     }
     
