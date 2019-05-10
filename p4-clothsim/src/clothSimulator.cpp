@@ -27,6 +27,10 @@ int highlights = 1;
 bool highlight_flag = true;
 int edges = 1;
 bool edges_flag = true;
+//Vector3f light_pos = Vector3f(0.5, 2, 2);
+float lp_x = 0.5;
+float lp_y = 2.0;
+float lp_z = 2.0;
 nanogui::Color min_color = nanogui::Color(0.2f, 0.0f, 0.0f, 1.0f);
 nanogui::Color max_color = nanogui::Color(1.0f, 0.0f, 0.0f, 1.0f);
 nanogui::Color outline_color = nanogui::Color(0.0f, 0.0f, 0.0f, 1.0f);
@@ -306,8 +310,8 @@ void ClothSimulator::drawContents() {
             Vector3D cam_pos = camera.position();
             //shader.setUniform("u_color", color, false);
             shader.setUniform("u_cam_pos", Vector3f(cam_pos.x, cam_pos.y, cam_pos.z), false);
-            shader.setUniform("u_light_pos", Vector3f(0.5, 2, 2), false);
-            shader.setUniform("u_light_intensity", Vector3f(3, 3, 3), false);
+            shader.setUniform("u_light_pos", Vector3f(lp_x, lp_y, lp_z), false);
+            shader.setUniform("u_light_intensity", Vector3f(1, 1, 1), false);
             shader.setUniform("u_texture_1_size", Vector2f(m_gl_texture_1_size.x, m_gl_texture_1_size.y), false);
             shader.setUniform("u_texture_2_size", Vector2f(m_gl_texture_2_size.x, m_gl_texture_2_size.y), false);
             shader.setUniform("u_texture_3_size", Vector2f(m_gl_texture_3_size.x, m_gl_texture_3_size.y), false);
@@ -835,7 +839,48 @@ void ClothSimulator::initGUI(Screen *screen) {
         }
         
     }
+    // Camera Position
     
+    new Label(window, "Light Position", "sans-bold");
+    
+    {
+        Widget *panel = new Widget(window);
+        GridLayout *layout =
+        new GridLayout(Orientation::Horizontal, 2, Alignment::Middle, 5, 5);
+        layout->setColAlignment({Alignment::Maximum, Alignment::Fill});
+        layout->setSpacing(0, 10);
+        panel->setLayout(layout);
+        
+        new Label(panel, "x :", "sans-bold");
+        
+        FloatBox<double> *fb = new FloatBox<double>(panel);
+        fb->setEditable(true);
+        fb->setFixedSize(Vector2i(100, 20));
+        fb->setFontSize(14);
+        fb->setValue(lp_x);
+        fb->setSpinnable(true);
+        fb->setCallback([this](float value) { lp_x = value; });
+        
+        new Label(panel, "y :", "sans-bold");
+        
+        fb = new FloatBox<double>(panel);
+        fb->setEditable(true);
+        fb->setFixedSize(Vector2i(100, 20));
+        fb->setFontSize(14);
+        fb->setValue(lp_y);
+        fb->setSpinnable(true);
+        fb->setCallback([this](float value) { lp_y = value; });
+        
+        new Label(panel, "z :", "sans-bold");
+        
+        fb = new FloatBox<double>(panel);
+        fb->setEditable(true);
+        fb->setFixedSize(Vector2i(100, 20));
+        fb->setFontSize(14);
+        fb->setValue(lp_z);
+        fb->setSpinnable(true);
+        fb->setCallback([this](float value) { lp_z = value; });
+    }
     
     
     
