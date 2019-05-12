@@ -20,8 +20,7 @@ using namespace nanogui;
 
 FileMesh::FileMesh(objl::Loader &loader)
 {
-//            Indices.resize(loader->LoadedMeshes[0].Indices.size());
-//            Vertices.resize(loader->LoadedMeshes[0].Vertices.size());
+
     num_indices = loader.LoadedMeshes[0].Indices.size();
     num_vertices = loader.LoadedMeshes[0].Vertices.size();
     build_data(loader);
@@ -55,9 +54,9 @@ void FileMesh::build_data(objl::Loader &loader) {
         CGL::Vector3D n3(vPtr3->Normal.X, vPtr3->Normal.Y,
                     vPtr3->Normal.Z);
         
-        CGL::Vector3D uv1(vPtr1->TextureCoordinate.X, vPtr1->TextureCoordinate.Y, 0);
-        CGL::Vector3D uv2(vPtr2->TextureCoordinate.X, vPtr2->TextureCoordinate.Y, 0);
-        CGL::Vector3D uv3(vPtr3->TextureCoordinate.X, vPtr3->TextureCoordinate.Y, 0);
+//        CGL::Vector3D uv1(vPtr1->TextureCoordinate.X, vPtr1->TextureCoordinate.Y, 0);
+//        CGL::Vector3D uv2(vPtr2->TextureCoordinate.X, vPtr2->TextureCoordinate.Y, 0);
+//        CGL::Vector3D uv3(vPtr3->TextureCoordinate.X, vPtr3->TextureCoordinate.Y, 0);
         
         positions.col(i    ) << p1.x, p1.y, p1.z, 1.0;
         positions.col(i + 1) << p2.x, p2.y, p2.z, 1.0;
@@ -66,10 +65,10 @@ void FileMesh::build_data(objl::Loader &loader) {
         normals.col(i    ) << n1.x, n1.y, n1.z, 0.0;
         normals.col(i + 1) << n2.x, n2.y, n2.z, 0.0;
         normals.col(i + 2) << n3.x, n3.y, n3.z, 0.0;
-        
-        uvs.col(i    ) << uv1.x, uv1.y;
-        uvs.col(i + 1) << uv2.x, uv2.y;
-        uvs.col(i + 2) << uv3.x, uv3.y;
+
+//        uvs.col(i    ) << 1.0, 1.0;
+//        uvs.col(i + 1) << 1.0, 1.0;
+//        uvs.col(i + 2) << 1.0, 1.0;
     }
 }
 
@@ -78,9 +77,9 @@ void FileMesh::draw_mesh(GLShader &shader) {
     if (shader.attrib("in_normal", false) != -1) {
         shader.uploadAttrib("in_normal", normals);
     }
-    if (shader.attrib("in_uv", false) != -1) {
-        shader.uploadAttrib("in_uv", uvs);
-    }
+//    if (shader.attrib("in_uv", false) != -1) {
+//        shader.uploadAttrib("in_uv", uvs);
+//    }
     
     shader.drawArray(GL_TRIANGLES, 0, num_indices);
 #ifdef LEAK_PATCH_ON
@@ -88,9 +87,9 @@ void FileMesh::draw_mesh(GLShader &shader) {
     if (shader.attrib("in_normal", false) != -1) {
         shader.freeAttrib("in_normal");
     }
-    if (shader.attrib("in_uv", false) != -1) {
-        shader.freeAttrib("in_uv");
-    }
+//    if (shader.attrib("in_uv", false) != -1) {
+//        shader.freeAttrib("in_uv");
+//    }
 #endif
 }
 
