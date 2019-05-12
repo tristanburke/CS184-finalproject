@@ -73,13 +73,10 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     <h2 class="w3-text-light-grey">The Technical Approach</h2>
     <hr style="width:200px" class="w3-opacity">
     <ul>
-        <li><b>The GLSL Shader: </b>Insert text about our GLSL Shader and Fragment files here. Include how GPU Acceleration helps our case.
-            <div align="center">
-                <img src="images/teapot.png" width="300px" />
-                <figcaption align="middle">Utah Teapot with Cel-Shading</figcaption>
-            </div>
+        <li><b>The GLSL Shader: </b>GLSL Shaders are small programs that run and live on the Graphics Processing Unit (GPU) of a computer. Shaders contain the math equations and calculations that must be evaluated for each pixel rendered on the screen. Typical inputs include the light sources, intensity, material properties, and texture mapping coordinates. The GPU is hardware optimized for these type of per-pixel computations and is able to compute the effects of changing parameters rather quickly when compared to a CPU execution time. GLSL is a C-like language that is targeted towards vector and matrix manipulation. Vectors and matrices are very integral components of most graphics computation. More information about GLSL can be found <a href="https://learnopengl.com/Getting-started/Shaders">here</a>. We were introduced to GLSL Shaders in Project 4, so we decided to adapt the Project 4 code to run our custom shader on objects that went beyond the primitive sphere, cloth, and plane of Project 4. The details of our custom shader are discussed in the section on Shading Algorithms. 
         </li>
         <li><b>Shading Algorithms: </b>Write about using the Blinn-Phong Shading Algorithm and the uniform band distribution, attempting the non-uniform band distribution, and the edge detection algorithm for outlines.</li>
+        
         <li><b>Updating the GUI: </b>Insert text about the GUI updates and the parameters that can change and how they affect the scene. Also add images for the parameters. 
             <div align="center">
                 <img src="images/lut.png" width="300px" />
