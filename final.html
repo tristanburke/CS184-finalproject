@@ -23,19 +23,23 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   <!-- Avatar image in top left corner -->
   <a href="#" class="w3-bar-item w3-button w3-padding-large w3-black">
     <i class="fa fa-info-circle w3-xxlarge"></i>
-    <p>Overview</p>
+    <p>Abstract and Overview</p>
   </a>
   <a href="#approach" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
     <i class="fa fa-check-circle-o w3-xxlarge"></i>
-    <p>Goals and Deliverables</p>
+    <p>Technical Approach</p>
   </a>
   <a href="#lessons" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
     <i class="fa fa-calendar-o w3-xxlarge"></i>
-    <p>Lessons</p>
+    <p>Contributions and Lessons</p>
+  </a>
+  <a href="#results" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-calendar-o w3-xxlarge"></i>
+    <p>Results and Images</p>
   </a>
   <a href="#references" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
     <i class="fa fa-pencil-square-o w3-xxlarge"></i>
-    <p>References</p>
+    <p>References and Future Steps</p>
   </a>
 </nav>
 
@@ -55,7 +59,9 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   <header class="w3-container w3-padding-32 w3-center w3-black">
     <h1 class="w3-jumbo"><span class="w3-hide-small"></span>Cel Shading</h1>
     <p>Tristan Burke, Andrew Noglows, Shivam Parikh</p>
-    <img src="images/progress2.png" width="300px"/>
+    <video width="960px" poster="img/final_video_poster.png" controls>
+        <source src="img/final_video.mp4" type="video/mp4">
+    </video>
   </header>
 
   <!-- About Section -->
@@ -69,11 +75,36 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   </div>
 
   <!-- Goals Section -->
-  <div class="w3-padding-64 w3-content" id="approach">
+  <div class="w3-padding-64 w3-content" class="w3-text-light-grey" id="approach">
     <h2 class="w3-text-light-grey">The Technical Approach</h2>
     <hr style="width:200px" class="w3-opacity">
     <ul>
-        <li><b>The GLSL Shader: </b>GLSL Shaders are small programs that run and live on the Graphics Processing Unit (GPU) of a computer. Shaders contain the math equations and calculations that must be evaluated for each pixel rendered on the screen. Typical inputs include the light sources, intensity, material properties, and texture mapping coordinates. The GPU is hardware optimized for these type of per-pixel computations and is able to compute the effects of changing parameters rather quickly when compared to a CPU execution time. GLSL is a C-like language that is targeted towards vector and matrix manipulation. Vectors and matrices are very integral components of most graphics computation. More information about GLSL can be found <a href="https://learnopengl.com/Getting-started/Shaders">here</a>. We were introduced to GLSL Shaders in Project 4, so we decided to adapt the Project 4 code to run our custom shader on objects that went beyond the primitive sphere, cloth, and plane of Project 4. The details of our custom shader are discussed in the section on Shading Algorithms.
+        <li><b>The GLSL Shader: </b>GLSL Shaders are small programs that run and live on the Graphics Processing Unit (GPU) of a computer. Shaders contain the math equations and calculations that must be evaluated for each pixel rendered on the screen. Typical inputs include the light sources, intensity, material properties, and texture mapping coordinates. The GPU is hardware optimized for these type of per-pixel computations and is able to compute the effects of changing parameters rather quickly when compared to a CPU execution time. GLSL is a C-like language that is targeted towards vector and matrix manipulation. Vectors and matrices are very integral components of most graphics computation. More information about GLSL can be found <a href="https://learnopengl.com/Getting-started/Shaders">here</a>. We were introduced to GLSL Shaders in Project 4, so we decided to adapt the Project 4 code to run our custom shader on objects that went beyond the primitive sphere, cloth, and plane of Project 4. The details of our custom shader are discussed in the section on Shading Algorithms.</li>
+
+        <li><b>Shading Algorithms: </b>The shading algorithm that we used wat the Blinn-Phong Reflection Algorithm. This algorithm works by calculating the normalization of the dot product of the ray from the point to the viewer (camera) and the reflected light ray on from that point. For each vertex, we calculate its blinn-phong reflection value, which we will call its index. We know that the dot product needs to have a value between -1 and 1, so we uniformly divide this range by the number of bands that the user has selected. For instance, if a user wants their object to have four bands, the ranges of each color assignment will be [-1, -0.5), [-0.5, 0), [0, 0.5), and [0.5, 1]. The colos for each of these ranges are determined by the maximum color and the minimum color that the user will set. Our shader will interpolate the colors for each band. By interpolating on the range, rather than the specific point, this allows for each individual band to maintain the same color and give us the style we desire, rather than having a gradient from the maximum color to minimum color.
+        <br>After completeing our uniform disstribution we attempted to implement non uniform distributions into our shader. Due to the personalization, that our GUI provides, we decided against ultimately including non-uniform distributions for band index values as it did not provide the added style that we were hoping for. We implemented a guassian distribution for the index ranges and found that it did not add to our project, so we discarded it.
+        <br>Next, our cel shader implements edge detection. This is done by calculating the normal of the dot product of the vertex normal and the viewer's (camera's) position. If this value is within our specified edge range, then we have detected an edge and will color it the desired edge color.
+        <br>Finally, we implemented specular shading on our object. We did this by first calculating the halfway H between the lightsource direction and the viewer (camera) direction. Next, we calculate the dot product of H and the vertex normal. If this value is greater than 1 - eta (user specified), then there is specular reflection on this vertex. Depending on the intensity of the highlight that the user specifies, the color is equal to its color from our previously described algorithm multiplied by the intensity.</li>
+
+        <li><b>Updating the GUI: </b>We updated the GUI from project 4 to better suit our project. We removed the previous parameter boxes and added our own, mimicing the starter code. Through our GUI, we are able to implement many customization's for our shader, that change its parameters. First, we are able to change the colors used and the number of bands. Next, we can enable/disable specular shading, change the eta value, and change its intensity. We can also enable/disable edge detection, choose the edges width, and its color. Lastly, we are able to change the light sources position. This feature is important because the shader is heavily dependant on the vector from the light source. By being able to move both the camera position and the light position, we can clearly see how our shader reacts!
+        <div align="center">
+            <table style="width=100%">
+                <tr>
+                    <td align="middle">
+                        <img src="img/best/gui1.png" width="300px">
+                        <figcaption align="middle">Band Count and Colors</figcaption>
+                    </td>
+                    <td align="middle">
+                        <img src="img/best/gui2.png" width="300px">
+                        <figcaption align="middle">Highlights, Specular Size, Specular Intensity, And Edge Toggling</figcaption>
+                    </td>
+                    <td align="middle">
+                        <img src="img/best/gui3.png" width="300px">
+                        <figcaption align="middle">Edge Thickness, Band Color, Light Position Manipulation</figcaption>
+                    </td>
+                </tr>
+            </table>
+        </div>
         </li>
         <li><b>Shading Algorithms: </b><p>The shading algorithm that we used wat the Blinn-Phong Reflection Algorithm. This algorithm works by calculating the normalization of the dot product of the ray from the point to the viewer (camera) and the reflected light ray on from that point. For each vertex, we calculate its blinn-phong reflection value, which we will call its index. We know that the dot product needs to have a value between -1 and 1, so we uniformly divide this range by the number of bands that the user has selected. For instance, if a user wants their object to have four bands, the ranges of each color assignment will be [-1, -0.5), [-0.5, 0), [0, 0.5), and [0.5, 1]. The colos for each of these ranges are determined by the maximum color and the minimum color that the user will set. Our shader will interpolate the colors for each band. By interpolating on the range, rather than the specific point, this allows for each individual band to maintain the same color and give us the style we desire, rather than having a gradient from the maximum color to minimum color.</p>
         <p>After completeing our uniform disstribution we attempted to implement non uniform distributions into our shader. Due to the personalization, that our GUI provides, we decided against ultimately including non-uniform distributions for band index values as it did not provide the added style that we were hoping for. We implemented a guassian distribution for the index ranges and found that it did not add to our project, so we discarded it.</p>
@@ -83,34 +114,71 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
         <li><b>Updating the GUI: </b>
           <p>We updated the GUI from project 4 to better suit our project. We removed the previous parameter boxes and added our own, mimicing the starter code. Through our GUI, we are able to implement many customization's for our shader, that change its parameters. First, we are able to change the colors used and the number of bands. Next, we can enable/disable specular shading, change the eta value, and change its intensity. We can also enable/disable edge detection, choose the edges width, and its color. Lastly, we are able to change the light sources position. This feature is important because the shader is heavily dependant on the vector from the light source. By being able to move both the camera position and the light position, we can clearly see how our shader reacts!</p>
 
-
+          <li><b>The OBJ Loader: </b>We conducted most of our original testing on the simple sphere, plane, and cloth objects made available to us in the Project 4 Code. However, the real magnificence and complexity of our shader can't be admired from looking at perfectly uniform objects. We wanted to be able to compare our results to the images we had found on other cel-shading project results pages. The OBJ Loader we found was an open source, MIT Licensed header file that we were able to incorporate rather smoothly into our source code. One major hiccup we encountered was the fact that some functions from the CGL Library of Vectors had overlapping names and when the two header files were being imported, there were duplicate symbols being linked by the compiler. Rather than getting deep into the make files and dealing with debugging our compiler issues, we learned about a C++ Keyword, 'inline' which simply makes a copy of the function everywhere the function is called. While I can see why this may be memory inefficeint due to the amount of space taken up on the memory by Code, memory was not an issue for most of our laptops, and this was the fastest and most time efficient way for us to move on to the important parts of the project. Sometimes, the meshes we read had inverted normals until we opened them in Meshlab and then re-exported them as objs to ensure that the normals were facing the correct direction and any extraneous data that our parser could not read was removed.
             <div align="center">
-                <img src="images/lut.png" width="300px" />
-                <figcaption align="middle">Customizing the LUT settings of a sphere</figcaption>
-            </div></li>
-        <li><b>The OBJ Loader: </b>We conducted most of our original testing on the simple sphere, plane, and cloth objects made available to us in the Project 4 Code. However, the real magnificence and complexity of our shader can't be admired from looking at perfectly uniform objects. We wanted to be able to compare our results to the images we had found on other cel-shading project results pages. For example, the Utah Teapot and the  "https://github.com/Bly7/OBJ-Loader/blob/master/Source/OBJ_Loader.h"
-             <div align="center">
-                <img src="images/highlights.png" width="300px" />
-                <figcaption align="middle">Highlights</figcaption>
+                <table style="width=100%">
+                    <tr>
+                        <td align="middle">
+                            <img src="img/bunny_mesh.png" width="400px" />
+                            <figcaption align="middle">Stanford Bunny Mesh opened in Meshlab</figcaption>
+                        </td>
+                        <td align="middle">
+                            <img src="img/bunny_mesh_toon.png" width="400px" />
+                            <figcaption align="middle">Stanford Bunny with Meshlab built-in toon shader, which we took visual inspiration from.</figcaption>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="middle">
+                            <img src="img/bunny_normal.png" width="400px" />
+                            <figcaption align="middle">Stanford Bunny with Normal Shader</figcaption>
+                        </td>
+                        <td align="middle">
+                            <img src="img/bunny_cel.png" width="400px" />
+                            <figcaption align="middle">Stanford Bunny with our Cel Shader</figcaption>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </li>
-        <li><b>Modifying Meshes: </b>Write about using MeshLab to modify meshes, perform loop subdivision, rectify inverted normals, and more.
+
+        <li><b>Modifying Meshes: </b>For many of the meshes, the objects were simply too low of a resolution for us to be able to render them nicely on our shader. For example, the Utah Teapot we first downloaded had a very coarse detail to it, and the specular lighting was struggling to present nice results for us. To improve the quality of our meshes, we used two remeshing algorithms from the program Meshlab, which is demonstrated below. We used Catmull-Clark Subdivision, and then converted the mesh into a pure triangular mesh to create the superior results of an upsampled mesh.
             <div align="center">
-                <img src="images/blackoutline.png" width="300px" />
-                <figcaption align="middle">Notice the outlines surrounding the characters and background</figcaption>
+                <table style="width=100%">
+                    <tr>
+                        <td align="middle">
+                            <img src="img/tea_low_res.png" width="350px" />
+                            <figcaption align="middle">As you can see, the jaggies on the specular are unpleasant effects of a low resolution mesh.</figcaption>
+                        </td>
+                        <td align="middle">
+                            <img src="img/tea_low_res_mesh.png" width="350px">
+                            <figcaption align="middle">The low resolution mesh when first opened in Meshlab.</figcaption>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="middle">
+                            <img src="img/tea_high_res_mesh.png" width="350px">
+                            <figcaption align="middle">The high resolution mesh after subdividing surfaces.</figcaption>
+                        </td>
+                        <td align="middle">
+                            <img src="img/tea_high_res.png" width="350px">
+                            <figcaption align="middle">The jaggies are not completely gone, but they are not as drastic in terms of fall-off as before the upsampling.</figcaption>
+                        </td>
+                    </tr>
+                </table>
             </div>
+        <br>Apart from resampling meshes, we also used Meshlab to resize and scale some of our meshes so they could fit in the frame of the GUI and be easier to move around. One side effect of the resampling however was that it greatly increased the complexity of the shapes being rendered, so the program was prone to using significantly more processing power from the GPU.
         </li>
 
     </ul>
   </div>
-  <!-- End Goals Section -->
 
-
-  <!-- Schedule Section -->
-  <div class="w3-padding-64 w3-content w3-text-grey" id="lessons">
+  <div class="w3-padding-64 w3-content w3-text-light-grey" id="lessons">
     <h2 class="w3-text-light-grey">Lessons Learned</h2>
     <hr style="width:200px" class="w3-opacity">
     <p>Overall, this was a rather interesting project, we learned the following lessons. etc.</p>
+    <h2 class="w3-text-light-grey">Contributions</h2>
+    <hr style="width:200px" class="w3-opacity">
+    <p>Everyone contributed equally ...</p>
   </div>
   <!-- End Schedule Section -->
   <div class="w3-padding-64 w3-content w3-text-grey" id="lessons">
@@ -121,23 +189,128 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     <li><b>Andrew Noglows: </b> Cel Shader, GUI
     <li><b>Shivam Parikh: </b> Cel Shader, .obj compatability
 
+  <div class="w3-padding-64 w3-content w3-text-light-grey" id="results">
+    <h2 class="w3-text-light-grey">Miscellaneous Results, Videos, and Screenshots</h2>
+    <hr style="width:200px" class="w3-opacity">
+        <div align="center">
+            <table style="width=100%">
+                <p>The Captain</p>
+                <tr>
+                    <td align="middle">
+                        <img src="img/best/cap_up.png" width="350px" />
+                    </td>
+                    <td align="middle">
+                        <img src="img/best/cap_flat.png" width="350px">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="middle">
+                        <img src="img/best/cap_p1.png" width="350px" />
+                    </td>
+                    <td align="middle">
+                        <img src="img/best/cap_p2.png" width="350px">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="middle">
+                        <img src="img/best/cap_p3.png" width="350px" />
+                    </td>
+                    <td align="middle">
+                        <img src="img/best/cap_p4.png" width="350px">
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div align="center">
+            <table style="width=100%">
+                <p>The Cow</p>
+                <tr>
+                    <td align="middle">
+                        <img src="img/best/cow_main.png" width="350px">
+                        <figcaption align="middle">Cow in Blue and Green</figcaption>
+                    </td>
+                    <td align="middle">
+                        <img src="img/best/cow_t0.png" width="350px">
+                        <figcaption align="middle">Thickness = 0</figcaption>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="middle">
+                        <img src="img/best/cow_t2.png" width="350px">
+                        <figcaption align="middle">Thickness = 0.2</figcaption>
+                    </td>
+                    <td align="middle">
+                        <img src="img/best/cow_t4.png" width="350px">
+                        <figcaption align="middle">Thickness = 0.4</figcaption>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="middle">
+                        <img src="img/best/cow_t6.png" width="350px">
+                        <figcaption align="middle">Thickness = 0.6</figcaption>
+                    </td>
+                    <td align="middle">
+                        <img src="img/best/cow_t8.png" width="350px">
+                        <figcaption align="middle">Thickness = 0.8</figcaption>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div align="center">
+            <table style="width=100%">
+                <p>Our Attempts at Texture Mapping (Just sampling a color and applying it)</p>
+                <p>As you can see, the colors on the GUI do not change, but the colors on the object do based on the colors sampled from the texture.</p>
+                <tr>
+                    <td align="middle">
+                        <img src="img/best/cap_texture_stones.png" width="350px">
+                        <figcaption align="middle">Cap with Applied Texture</figcaption>
+                    </td>
+                    <td align="middle">
+                        <img src="img/best/texture_stones.png" width="280px">
+                        <figcaption align="middle">Stones Texture</figcaption>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="middle">
+                        <img src="img/best/cap_texture_cloth.png" width="350px">
+                        <figcaption align="middle">Cap with Applied Texture</figcaption>
+                    </td>
+                    <td align="middle">
+                        <img src="img/best/texture_cloth.png" width="280px">
+                        <figcaption align="middle">Cloth Texture</figcaption>
+                    </td>
+                </tr>
+            </table>
+        </div>
+  </div>
 
   <!-- resources Section -->
-  <div class="w3-padding-64 w3-content w3-text-grey" id="references">
+  <div class="w3-padding-64 w3-content w3-text-light-grey" id="references">
     <h2 class="w3-text-light-grey">References</h2>
     <hr style="width:200px" class="w3-opacity">
-    <p>Here are some of our resources: </p>
+    <p>Referenced Links, Articles, and file sources</p>
     <ul>
-        <li> Project 3-2 </li>
-        <li> https://en.wikipedia.org/wiki/Cel_shading </li>
+        <li> Project 4 from CS 184: https://cs184.eecs.berkeley.edu/sp19/article/34/assignment-4-cloth-simulation</li>
+        <li> Utah Teapot OBJ Source: https://graphics.stanford.edu/courses/cs148-10-summer/as3/code/as3/teapot.obj</li>
+        <li> Captain America OBJ Source: http://3dmag.org/en/market/item/2955/</li>
+        <li> Cow OBJ Source: https://groups.csail.mit.edu/graphics/classes/6.837/F03/models/cow-nonormals.obj</li>
+        <li> Stanford Bunny OBJ Source: https://graphics.stanford.edu/~mdfisher/Data/Meshes/bunny.obj</li>
+        <li> OBJ Parser: https://github.com/Bly7/OBJ-Loader/blob/master/Source/OBJ_Loader.h</li>
+        <li> Wikipedia: https://en.wikipedia.org/wiki/Cel_shading </li>
         <li> https://www.raywenderlich.com/146-unreal-engine-4-cel-shading-tutorial </li>
         <li> http://nehe.gamedev.net/tutorial/cel_shading/25001/ </li>
         <li> http://www.lighthouse3d.com/tutorials/glsl-12-tutorial/toon-shading/ </li>
-        <li> https://www.cs.rpi.edu/~cutler/classes/advancedgraphics/S12/final_projects/hutchins_kim.pdf </li>
+        <li> Paper/Project Report on Cel-Shading: https://www.cs.rpi.edu/~cutler/classes/advancedgraphics/S12/final_projects/hutchins_kim.pdf </li>
         <li> http://rbwhitaker.wikidot.com/toon-shader </li>
-        <li> https://www.reddit.com/r/unrealengine/comments/7wgas1/creating_cel_shading_with_outlines/ </li> <li>http://users.csc.calpoly.edu/~zwood/teaching/csc471/finalproj24/nmarcy/</li>
+        <li> https://www.reddit.com/r/unrealengine/comments/7wgas1/creating_cel_shading_with_outlines/ </li>
+        <li> http://users.csc.calpoly.edu/~zwood/teaching/csc471/finalproj24/nmarcy/</li>
     </ul>
-  <!-- End resources Section -->
+    <h2 class="w3-text-light-grey">Future Steps</h2>
+    <hr style="width:200px" class="w3-opacity">
+    <p>We made quite a bit of progress on this project, getting OBJ files imported and being able to sample colors from textures went a few steps beyond what we had envisioned when we set off on the journey. But there is always more to learn and more to be done. The next steps we discussed as a team are things we thought of before the project started, but also things we encountered along the way that we were unable to implement in the duration of the project.<br>UV textures and material files are often packaged with the OBJ file format, and contain texture mappings for OBJ files to appear closer to the real world. We were able to sample a single color from png texture files for our project, but a next step is to accurately map the uv coordinates of each vertex and face from the png texture file.<br>Another neat step relates back to the shader itself, implementing shadows on other objects would be really cool as well. When we implemented the shifting light position parameters, we were able to see the effects of the self shadow based on the Blinn-Phong shading algorithm we adapted for our Cel Shader, but when we add a plane or sphere onto the renderer, the shadows do not interact between objects.<br>Some OBJ files also come with multiple detatched meshes, so it would be equally cool to allow for the rendering of multiple scenes or multiple meshes on the same renderer to build a cohesive Cel Shaded scene.<br>We would also like to expand beyond just OBJ files because the world of 3D art has made so many neat scenes and objects that our shader would strongly benefit from being able to render more than just OBJ files.<br>Something we struggled with in our shader was non-uniform band shading. We wanted to implement a shader that determined the thickness and color of bands based on a PDF sampling of colors and light intensity on particular points of the shape being rendered, rather than just uniformly splitting into bands based on pre-determined ranges.</p>
+    <h2 class="w3-text-light-grey">Conclusion</h2>
+    <hr style="width:200px" class="w3-opacity">
+    <p>We would like to thank the course staff for their support on Piazza and in Office Hours for helping us come up with solutions to making this project what it is now. We thoroughly enjoyed the process of building the Cel Shader and also enjoyed many of the other class projects we got to see during the expo. As computer scientists that are so often bogged down in the algorithms and the data, it was nice to take a class that took us back to the visual arts and perceptive computing.</p>
   </div>
 
 <!-- END PAGE CONTENT -->
