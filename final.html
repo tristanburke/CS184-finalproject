@@ -106,14 +106,6 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
             </table>
         </div>
         </li>
-        <li><b>Shading Algorithms: </b><p>The shading algorithm that we used wat the Blinn-Phong Reflection Algorithm. This algorithm works by calculating the normalization of the dot product of the ray from the point to the viewer (camera) and the reflected light ray on from that point. For each vertex, we calculate its blinn-phong reflection value, which we will call its index. We know that the dot product needs to have a value between -1 and 1, so we uniformly divide this range by the number of bands that the user has selected. For instance, if a user wants their object to have four bands, the ranges of each color assignment will be [-1, -0.5), [-0.5, 0), [0, 0.5), and [0.5, 1]. The colos for each of these ranges are determined by the maximum color and the minimum color that the user will set. Our shader will interpolate the colors for each band. By interpolating on the range, rather than the specific point, this allows for each individual band to maintain the same color and give us the style we desire, rather than having a gradient from the maximum color to minimum color.</p>
-        <p>After completeing our uniform disstribution we attempted to implement non uniform distributions into our shader. Due to the personalization, that our GUI provides, we decided against ultimately including non-uniform distributions for band index values as it did not provide the added style that we were hoping for. We implemented a guassian distribution for the index ranges and found that it did not add to our project, so we discarded it.</p>
-        <p>Next, our cel shader implements edge detection. This is done by calculating the normal of the dot product of the vertex normal and the viewer's (camera's) position. If this value is within our specified edge range, then we have detected an edge and will color it the desired edge color.</p>
-        <p>Finally, we implemented specular shading on our object. We did this by first calculating the halfway H between the lightsource direction and the viewer (camera) direction. Next, we calculate the dot product of H and the vertex normal. If this value is greater than 1 - eta (user specified), then there is specular reflection on this vertex. Depending on the intensity of the highlight that the user specifies, the color is equal to its color from our previously described algorithm multiplied by the intensity.</p>
-
-        <li><b>Updating the GUI: </b>
-          <p>We updated the GUI from project 4 to better suit our project. We removed the previous parameter boxes and added our own, mimicing the starter code. Through our GUI, we are able to implement many customization's for our shader, that change its parameters. First, we are able to change the colors used and the number of bands. Next, we can enable/disable specular shading, change the eta value, and change its intensity. We can also enable/disable edge detection, choose the edges width, and its color. Lastly, we are able to change the light sources position. This feature is important because the shader is heavily dependant on the vector from the light source. By being able to move both the camera position and the light position, we can clearly see how our shader reacts!</p>
-
           <li><b>The OBJ Loader: </b>We conducted most of our original testing on the simple sphere, plane, and cloth objects made available to us in the Project 4 Code. However, the real magnificence and complexity of our shader can't be admired from looking at perfectly uniform objects. We wanted to be able to compare our results to the images we had found on other cel-shading project results pages. The OBJ Loader we found was an open source, MIT Licensed header file that we were able to incorporate rather smoothly into our source code. One major hiccup we encountered was the fact that some functions from the CGL Library of Vectors had overlapping names and when the two header files were being imported, there were duplicate symbols being linked by the compiler. Rather than getting deep into the make files and dealing with debugging our compiler issues, we learned about a C++ Keyword, 'inline' which simply makes a copy of the function everywhere the function is called. While I can see why this may be memory inefficeint due to the amount of space taken up on the memory by Code, memory was not an issue for most of our laptops, and this was the fastest and most time efficient way for us to move on to the important parts of the project. Sometimes, the meshes we read had inverted normals until we opened them in Meshlab and then re-exported them as objs to ensure that the normals were facing the correct direction and any extraneous data that our parser could not read was removed.
             <div align="center">
                 <table style="width=100%">
@@ -175,19 +167,12 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   <div class="w3-padding-64 w3-content w3-text-light-grey" id="lessons">
     <h2 class="w3-text-light-grey">Lessons Learned</h2>
     <hr style="width:200px" class="w3-opacity">
-    <p>Overall, this was a rather interesting project, we learned the following lessons. etc.</p>
-    <h2 class="w3-text-light-grey">Contributions</h2>
-    <hr style="width:200px" class="w3-opacity">
-    <p>Everyone contributed equally ...</p>
+    <p>Through this project, we were able to learned about cel shading, OpenGL, and .obj files. First, we learned about cel shading. Cel shading is a non-photorealistic shading style that makes an object appear flat, as if it was in a comic book. While we implemented our shader, we learned that there is much artistic and personal freedom compared to photorealistic shaders. We were able to experiement with different implementations of our shader to get the nonphotorealistic style we wanted. We enjoyed this because it gave us artistic freedom in the shader, rather than the scenes/objects we've created in the class contests. Next, we learned about OpenGL and how to properly convert files to be usable by it. In order to use OpenGL in a project, one must be able to input a buffer of indicies and verticies. The indicies reference vertices in the vertex buffer to create a list of triangles. Using OpenGL was rewarding as it gave us a deeper understanding of data structures used in computer graphics. Furthermore, we learned how to parse .obj files so that they would be compatable with OpenGL. We learned the different aspects of .obj files and were able to parse the information so that we could extract the indicies and verticies from each file. Through this part of the project, we gained the confidence that it would be possible to implement different parsers for different file types. Lastly, we learned the importance of planning and teamwork. We were able to complete the goals of our project because we stayed on task while we met and were and put in place a good plane. Without our team coming together, we would not have delivered the same quality of final product that we have, and it would have been a much more stressful and less enjoyable experience. </p>
   </div>
+
+
   <!-- End Schedule Section -->
-  <div class="w3-padding-64 w3-content w3-text-grey" id="lessons">
-    <h2 class="w3-text-light-grey">Contributions</h2>
-    <hr style="width:200px" class="w3-opacity">
-    <p>Overall, everyone contributed equally to the project. Each team member brought great eneergy, enthusiasm, and their own knowledge to this project. We met 12 times to make progress we feel that we could not have produced the final project that we did without each other.</p>
-    <li><b>Tristan Burke: </b> Cel Shader, .obj compatability
-    <li><b>Andrew Noglows: </b> Cel Shader, GUI
-    <li><b>Shivam Parikh: </b> Cel Shader, .obj compatability
+
 
   <div class="w3-padding-64 w3-content w3-text-light-grey" id="results">
     <h2 class="w3-text-light-grey">Miscellaneous Results, Videos, and Screenshots</h2>
@@ -282,6 +267,15 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
                 </tr>
             </table>
         </div>
+  </div>
+
+  <div class="w3-padding-64 w3-content w3-text-light-grey" id="lessons">
+    <h2 class="w3-text-light-grey">Contributions</h2>
+    <hr style="width:200px" class="w3-opacity">
+    <p>Overall, everyone contributed equally to the project. Each team member brought great eneergy, enthusiasm, and their own knowledge to this project. We met 12 times to make progress we feel that we could not have produced the final project that we did without each other.</p>
+    <li><b>Tristan Burke: </b> Cel Shader, .obj compatability
+    <li><b>Andrew Noglows: </b> Cel Shader, GUI
+    <li><b>Shivam Parikh: </b> Cel Shader, .obj compatability
   </div>
 
   <!-- resources Section -->
